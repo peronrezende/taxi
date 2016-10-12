@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- leaflet -->
+<link rel="stylesheet" href="leaflet/leaflet.css">
+<script src="leaflet/leaflet.js"></script>
+
+<!-- leaflet route -->
+<link rel="stylesheet" href="routing/leaflet-routing-machine.css" />
+<script src="routing/leaflet-routing-machine.js"></script>
+
+<title>Rota do Taxi</title>
+</head>
+
+<body>
+
+<br><br><p>Mapa 0 : 2016-06-22 12:00:00.0 .. 2016-06-22 12:03:00.0</p><div id="map0" style="width: 1200px; height: 800px; position: relative;"></div>
+<script>
+var mymap0 = L.map('map0').setView([-22.90, -43.25], 15);
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+	maxZoom: 18,
+	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+		'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+		'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	id: 'mapbox.streets'
+}).addTo(mymap0);
+
+var polygon = L.polygon([
+	[-22.915, -43.265],
+	[-22.905, -43.265],
+	[-22.905, -43.255],
+	[-22.915, -43.255]
+]).addTo(mymap0);
+var polygon = L.polygon([
+	[-22.915, -43.245],
+	[-22.905, -43.245],
+	[-22.905, -43.235],
+	[-22.915, -43.235]
+]).addTo(mymap0);
+var polygon = L.polygon([
+	[-22.905, -43.255],
+	[-22.895, -43.255],
+	[-22.895, -43.245],
+	[-22.905, -43.245]
+]).addTo(mymap0);
+var polygon = L.polygon([
+	[-22.895, -43.265],
+	[-22.885, -43.265],
+	[-22.885, -43.255],
+	[-22.895, -43.255]
+]).addTo(mymap0);
+var polygon = L.polygon([
+	[-22.895, -43.245],
+	[-22.885, -43.245],
+	[-22.885, -43.235],
+	[-22.895, -43.235]
+]).addTo(mymap0);
+L.marker([-22.912910269300099, -43.243640136115999]).addTo(mymap0);
+L.marker([-22.9136549597842, -43.235824793144197]).addTo(mymap0);
+L.marker([-22.914151417833899, -43.251994468258303]).addTo(mymap0);
+L.marker([-22.901491169637499, -43.257653854548302]).addTo(mymap0);
+L.marker([-22.903725416979299, -43.258462338304]).addTo(mymap0);
+L.marker([-22.895036470576699, -43.262504757082503]).addTo(mymap0);
+L.marker([-22.902732422704901, -43.243640136115999]).addTo(mymap0);
+L.marker([-22.895532996793101, -43.237441760655599]).addTo(mymap0);
+L.marker([-22.913158499916101, -43.249838511576399]).addTo(mymap0);
+L.marker([-22.895284733912, -43.237441760655599]).addTo(mymap0);
+L.marker([-22.903973664411801, -43.259540316644902]).addTo(mymap0);
+L.marker([-22.9007464123444, -43.2546894141107]).addTo(mymap0);
+L.marker([-22.886595246894501, -43.251185984502598]).addTo(mymap0);
+L.marker([-22.910179702524101, -43.244718114456902]).addTo(mymap0);
+L.marker([-22.912413806704599, -43.241214684848899]).addTo(mymap0);
+L.marker([-22.914896101499199, -43.2417536740193]).addTo(mymap0);
+L.marker([-22.901242917660898, -43.248760533235497]).addTo(mymap0);
+L.marker([-22.9042219113899, -43.264121724593899]).addTo(mymap0);
+L.marker([-22.9136549597842, -43.264121724593899]).addTo(mymap0);
+L.marker([-22.890815924371999, -43.242292663189801]).addTo(mymap0);
+L.marker([-22.901242917660898, -43.2541504249402]).addTo(mymap0);
+L.marker([-22.911917342290799, -43.2398672119227]).addTo(mymap0);
+L.marker([-22.903228920750902, -43.246874071138798]).addTo(mymap0);
+L.marker([-22.912910269300099, -43.242562157775097]).addTo(mymap0);
+L.marker([-22.911420876058799, -43.239058728167002]).addTo(mymap0);
+L.marker([-22.894539942543201, -43.251185984502598]).addTo(mymap0);
+L.marker([-22.895036470576699, -43.263043746252997]).addTo(mymap0);
+L.marker([-22.9136549597842, -43.2355552985589]).addTo(mymap0);
+L.marker([-22.900249905210298, -43.245526598212599]).addTo(mymap0);
+L.marker([-22.914647874065398, -43.250108006161703]).addTo(mymap0);
+</script>
+
+<br><br><p>Mapa 1 : 2016-06-22 12:03:00.0 .. 2016-06-22 12:06:00.0</p><div id="map1" style="width: 1200px; height: 800px; position: relative;"></div>
+<script>
+var mymap1 = L.map('map1').setView([-22.90, -43.25], 15);
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+	maxZoom: 18,
+	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+		'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+		'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	id: 'mapbox.streets'
+}).addTo(mymap1);
+
+var polygon = L.polygon([
+	[-22.915, -43.265],
+	[-22.905, -43.265],
+	[-22.905, -43.255],
+	[-22.915, -43.255]
+]).addTo(mymap1);
+var polygon = L.polygon([
+	[-22.915, -43.245],
+	[-22.905, -43.245],
+	[-22.905, -43.235],
+	[-22.915, -43.235]
+]).addTo(mymap1);
+var polygon = L.polygon([
+	[-22.905, -43.255],
+	[-22.895, -43.255],
+	[-22.895, -43.245],
+	[-22.905, -43.245]
+]).addTo(mymap1);
+var polygon = L.polygon([
+	[-22.895, -43.265],
+	[-22.885, -43.265],
+	[-22.885, -43.255],
+	[-22.895, -43.255]
+]).addTo(mymap1);
+var polygon = L.polygon([
+	[-22.895, -43.245],
+	[-22.885, -43.245],
+	[-22.885, -43.235],
+	[-22.895, -43.235]
+]).addTo(mymap1);
+L.marker([-22.911172642260901, -43.238789233581699]).addTo(mymap1);
+L.marker([-22.912413806704599, -43.240675695678398]).addTo(mymap1);
+L.marker([-22.914896101499199, -43.263313240838201]).addTo(mymap1);
+L.marker([-22.903973664411801, -43.258731832889197]).addTo(mymap1);
+L.marker([-22.895781259219799, -43.252533457428797]).addTo(mymap1);
+L.marker([-22.902732422704901, -43.2441791252865]).addTo(mymap1);
+L.marker([-22.913158499916101, -43.249838511576399]).addTo(mymap1);
+L.marker([-22.9007464123444, -43.2546894141107]).addTo(mymap1);
+L.marker([-22.903973664411801, -43.262504757082503]).addTo(mymap1);
+L.marker([-22.895532996793101, -43.240945190263602]).addTo(mymap1);
+L.marker([-22.895532996793101, -43.237441760655599]).addTo(mymap1);
+L.marker([-22.891809005877999, -43.240406201093201]).addTo(mymap1);
+L.marker([-22.894291677845001, -43.2627742516677]).addTo(mymap1);
+L.marker([-22.895284733912, -43.237441760655599]).addTo(mymap1);
+L.marker([-22.910179702524101, -43.240675695678398]).addTo(mymap1);
+L.marker([-22.9143996461769, -43.263582735423398]).addTo(mymap1);
+L.marker([-22.912165574725002, -43.246604576553601]).addTo(mymap1);
+L.marker([-22.902980671955099, -43.2503775007469]).addTo(mymap1);
+L.marker([-22.914151417833899, -43.2441791252865]).addTo(mymap1);
+L.marker([-22.912413806704599, -43.236633276899902]).addTo(mymap1);
+L.marker([-22.896029521192201, -43.243640136115999]).addTo(mymap1);
+L.marker([-22.9139031890364, -43.237172266070303]).addTo(mymap1);
+L.marker([-22.911669109401998, -43.242023168604597]).addTo(mymap1);
+L.marker([-22.897022564538702, -43.254419919525397]).addTo(mymap1);
+L.marker([-22.895284733912, -43.240406201093201]).addTo(mymap1);
+L.marker([-22.901491169637499, -43.261965767912002]).addTo(mymap1);
+</script>
+
+<br><br><p>Mapa 2 : 2016-06-22 12:06:00.0 .. 2016-06-22 12:09:00.0</p><div id="map2" style="width: 1200px; height: 800px; position: relative;"></div>
+<script>
+var mymap2 = L.map('map2').setView([-22.90, -43.25], 15);
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+	maxZoom: 18,
+	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+		'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+		'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	id: 'mapbox.streets'
+}).addTo(mymap2);
+
+var polygon = L.polygon([
+	[-22.915, -43.265],
+	[-22.905, -43.265],
+	[-22.905, -43.255],
+	[-22.915, -43.255]
+]).addTo(mymap2);
+var polygon = L.polygon([
+	[-22.915, -43.245],
+	[-22.905, -43.245],
+	[-22.905, -43.235],
+	[-22.915, -43.235]
+]).addTo(mymap2);
+var polygon = L.polygon([
+	[-22.905, -43.255],
+	[-22.895, -43.255],
+	[-22.895, -43.245],
+	[-22.905, -43.245]
+]).addTo(mymap2);
+var polygon = L.polygon([
+	[-22.895, -43.265],
+	[-22.885, -43.265],
+	[-22.885, -43.255],
+	[-22.895, -43.255]
+]).addTo(mymap2);
+var polygon = L.polygon([
+	[-22.895, -43.245],
+	[-22.885, -43.245],
+	[-22.885, -43.235],
+	[-22.895, -43.235]
+]).addTo(mymap2);
+L.marker([-22.9096832299285, -43.236902771485099]).addTo(mymap2);
+L.marker([-22.9042219113899, -43.244987609042198]).addTo(mymap2);
+L.marker([-22.899008629423701, -43.243909630701197]).addTo(mymap2);
+L.marker([-22.9007464123444, -43.2546894141107]).addTo(mymap2);
+L.marker([-22.913158499916101, -43.249838511576399]).addTo(mymap2);
+L.marker([-22.914896101499199, -43.240136706507897]).addTo(mymap2);
+L.marker([-22.891064195429902, -43.235016309388399]).addTo(mymap2);
+L.marker([-22.895532996793101, -43.237441760655599]).addTo(mymap2);
+L.marker([-22.9084420404855, -43.235824793144197]).addTo(mymap2);
+L.marker([-22.908193801233399, -43.238789233581699]).addTo(mymap2);
+L.marker([-22.895284733912, -43.237441760655599]).addTo(mymap2);
+L.marker([-22.911669109401998, -43.236363782314598]).addTo(mymap2);
+L.marker([-22.904966649597601, -43.240136706507897]).addTo(mymap2);
+L.marker([-22.908193801233399, -43.238789233581699]).addTo(mymap2);
+L.marker([-22.910924408008501, -43.237711255240797]).addTo(mymap2);
+L.marker([-22.903973664411801, -43.261965767912002]).addTo(mymap2);
+L.marker([-22.902980671955099, -43.250916489917401]).addTo(mymap2);
+L.marker([-22.912910269300099, -43.246335081968397]).addTo(mymap2);
+L.marker([-22.914896101499199, -43.264121724593899]).addTo(mymap2);
+L.marker([-22.911172642260901, -43.237980749826001]).addTo(mymap2);
+L.marker([-22.9099314664536, -43.238250244411297]).addTo(mymap2);
+L.marker([-22.906704356176199, -43.238789233581699]).addTo(mymap2);
+L.marker([-22.8858504078318, -43.235016309388399]).addTo(mymap2);
+L.marker([-22.9084420404855, -43.238250244411297]).addTo(mymap2);
+L.marker([-22.9139031890364, -43.251994468258303]).addTo(mymap2);
+L.marker([-22.9017394211598, -43.246874071138798]).addTo(mymap2);
+L.marker([-22.9139031890364, -43.263852230008702]).addTo(mymap2);
+L.marker([-22.9042219113899, -43.263582735423398]).addTo(mymap2);
+L.marker([-22.9084420404855, -43.238789233581699]).addTo(mymap2);
+L.marker([-22.9084420404855, -43.238789233581699]).addTo(mymap2);
+L.marker([-22.911669109401998, -43.2417536740193]).addTo(mymap2);
+L.marker([-22.9139031890364, -43.251994468258303]).addTo(mymap2);
+L.marker([-22.9042219113899, -43.262235262497299]).addTo(mymap2);
+L.marker([-22.900498159004599, -43.245796092797903]).addTo(mymap2);
+L.marker([-22.897270824239499, -43.238789233581699]).addTo(mymap2);
+L.marker([-22.903725416979299, -43.256845370792497]).addTo(mymap2);
+L.marker([-22.914151417833899, -43.263852230008702]).addTo(mymap2);
+L.marker([-22.914151417833899, -43.263852230008702]).addTo(mymap2);
+L.marker([-22.914151417833899, -43.237172266070303]).addTo(mymap2);
+</script>
+
+<br><br><p>Mapa 3 : 2016-06-22 12:09:00.0 .. 2016-06-22 12:12:00.0</p><div id="map3" style="width: 1200px; height: 800px; position: relative;"></div>
+<script>
+var mymap3 = L.map('map3').setView([-22.90, -43.25], 15);
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+	maxZoom: 18,
+	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+		'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+		'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	id: 'mapbox.streets'
+}).addTo(mymap3);
+
+var polygon = L.polygon([
+	[-22.915, -43.265],
+	[-22.905, -43.265],
+	[-22.905, -43.255],
+	[-22.915, -43.255]
+]).addTo(mymap3);
+var polygon = L.polygon([
+	[-22.915, -43.245],
+	[-22.905, -43.245],
+	[-22.905, -43.235],
+	[-22.915, -43.235]
+]).addTo(mymap3);
+var polygon = L.polygon([
+	[-22.905, -43.255],
+	[-22.895, -43.255],
+	[-22.895, -43.245],
+	[-22.905, -43.245]
+]).addTo(mymap3);
+var polygon = L.polygon([
+	[-22.895, -43.265],
+	[-22.885, -43.265],
+	[-22.885, -43.255],
+	[-22.895, -43.255]
+]).addTo(mymap3);
+var polygon = L.polygon([
+	[-22.895, -43.245],
+	[-22.885, -43.245],
+	[-22.885, -43.235],
+	[-22.895, -43.235]
+]).addTo(mymap3);
+L.marker([-22.908193801233399, -43.238789233581699]).addTo(mymap3);
+L.marker([-22.900001650961698, -43.244448619871697]).addTo(mymap3);
+L.marker([-22.890071108473201, -43.243370641530802]).addTo(mymap3);
+L.marker([-22.899008629423701, -43.243640136115999]).addTo(mymap3);
+L.marker([-22.899008629423701, -43.243909630701197]).addTo(mymap3);
+L.marker([-22.9069525981553, -43.239328222752199]).addTo(mymap3);
+L.marker([-22.903973664411801, -43.2603488004006]).addTo(mymap3);
+L.marker([-22.903973664411801, -43.2603488004006]).addTo(mymap3);
+L.marker([-22.8995051411014, -43.251724973673099]).addTo(mymap3);
+L.marker([-22.892802080115999, -43.261696273326798]).addTo(mymap3);
+L.marker([-22.903973664411801, -43.262504757082503]).addTo(mymap3);
+L.marker([-22.903477169092302, -43.256036887036799]).addTo(mymap3);
+L.marker([-22.904718403982798, -43.241484179434103]).addTo(mymap3);
+L.marker([-22.895781259219799, -43.252533457428797]).addTo(mymap3);
+L.marker([-22.914647874065398, -43.243640136115999]).addTo(mymap3);
+L.marker([-22.910676173301599, -43.237711255240797]).addTo(mymap3);
+L.marker([-22.895532996793101, -43.237172266070303]).addTo(mymap3);
+L.marker([-22.913158499916101, -43.249838511576399]).addTo(mymap3);
+L.marker([-22.895284733912, -43.237441760655599]).addTo(mymap3);
+L.marker([-22.9007464123444, -43.2546894141107]).addTo(mymap3);
+L.marker([-22.914896101499199, -43.241484179434103]).addTo(mymap3);
+L.marker([-22.912413806704599, -43.245796092797903]).addTo(mymap3);
+L.marker([-22.885105564681702, -43.2355552985589]).addTo(mymap3);
+L.marker([-22.895284733912, -43.263043746252997]).addTo(mymap3);
+L.marker([-22.912165574725002, -43.240136706507897]).addTo(mymap3);
+L.marker([-22.904718403982798, -43.243640136115999]).addTo(mymap3);
+L.marker([-22.9044701579136, -43.243101146945499]).addTo(mymap3);
+L.marker([-22.895036470576699, -43.262235262497299]).addTo(mymap3);
+L.marker([-22.903725416979299, -43.258192843718703]).addTo(mymap3);
+L.marker([-22.895532996793101, -43.237172266070303]).addTo(mymap3);
+L.marker([-22.9099314664536, -43.240675695678398]).addTo(mymap3);
+L.marker([-22.896029521192201, -43.238250244411297]).addTo(mymap3);
+L.marker([-22.914647874065398, -43.251724973673099]).addTo(mymap3);
+L.marker([-22.904718403982798, -43.260079305815403]).addTo(mymap3);
+L.marker([-22.904718403982798, -43.260079305815403]).addTo(mymap3);
+L.marker([-22.904718403982798, -43.2646607137644]).addTo(mymap3);
+L.marker([-22.904718403982798, -43.2646607137644]).addTo(mymap3);
+L.marker([-22.9096832299285, -43.238250244411297]).addTo(mymap3);
+L.marker([-22.901491169637499, -43.2503775007469]).addTo(mymap3);
+L.marker([-22.901491169637499, -43.2503775007469]).addTo(mymap3);
+L.marker([-22.897022564538702, -43.252533457428797]).addTo(mymap3);
+L.marker([-22.895781259219799, -43.252533457428797]).addTo(mymap3);
+L.marker([-22.9143996461769, -43.263582735423398]).addTo(mymap3);
+L.marker([-22.903973664411801, -43.2627742516677]).addTo(mymap3);
+L.marker([-22.903973664411801, -43.2627742516677]).addTo(mymap3);
+</script>
+
+<br><br><p>Mapa 4 : 2016-06-22 12:12:00.0 .. 2016-06-22 12:15:00.0</p><div id="map4" style="width: 1200px; height: 800px; position: relative;"></div>
+<script>
+var mymap4 = L.map('map4').setView([-22.90, -43.25], 15);
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+	maxZoom: 18,
+	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+		'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+		'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	id: 'mapbox.streets'
+}).addTo(mymap4);
+
+var polygon = L.polygon([
+	[-22.915, -43.265],
+	[-22.905, -43.265],
+	[-22.905, -43.255],
+	[-22.915, -43.255]
+]).addTo(mymap4);
+var polygon = L.polygon([
+	[-22.915, -43.245],
+	[-22.905, -43.245],
+	[-22.905, -43.235],
+	[-22.915, -43.235]
+]).addTo(mymap4);
+var polygon = L.polygon([
+	[-22.905, -43.255],
+	[-22.895, -43.255],
+	[-22.895, -43.245],
+	[-22.905, -43.245]
+]).addTo(mymap4);
+var polygon = L.polygon([
+	[-22.895, -43.265],
+	[-22.885, -43.265],
+	[-22.885, -43.255],
+	[-22.895, -43.255]
+]).addTo(mymap4);
+var polygon = L.polygon([
+	[-22.895, -43.245],
+	[-22.885, -43.245],
+	[-22.885, -43.235],
+	[-22.895, -43.235]
+]).addTo(mymap4);
+L.marker([-22.893546881024701, -43.261696273326798]).addTo(mymap4);
+L.marker([-22.9007464123444, -43.2546894141107]).addTo(mymap4);
+L.marker([-22.895284733912, -43.237441760655599]).addTo(mymap4);
+L.marker([-22.9057113837152, -43.242023168604597]).addTo(mymap4);
+L.marker([-22.913158499916101, -43.2355552985589]).addTo(mymap4);
+L.marker([-22.911917342290799, -43.237172266070303]).addTo(mymap4);
+L.marker([-22.902980671955099, -43.249838511576399]).addTo(mymap4);
+L.marker([-22.896526043774099, -43.2417536740193]).addTo(mymap4);
+L.marker([-22.9057113837152, -43.243640136115999]).addTo(mymap4);
+L.marker([-22.912910269300099, -43.236094287729401]).addTo(mymap4);
+L.marker([-22.912910269300099, -43.249838511576399]).addTo(mymap4);
+L.marker([-22.903973664411801, -43.261696273326798]).addTo(mymap4);
+L.marker([-22.896029521192201, -43.241484179434103]).addTo(mymap4);
+L.marker([-22.900994665229799, -43.241214684848899]).addTo(mymap4);
+L.marker([-22.908938517626201, -43.237711255240797]).addTo(mymap4);
+L.marker([-22.907200839679899, -43.237980749826001]).addTo(mymap4);
+L.marker([-22.899008629423701, -43.2608877895711]).addTo(mymap4);
+L.marker([-22.897022564538702, -43.236902771485099]).addTo(mymap4);
+L.marker([-22.903477169092302, -43.256036887036799]).addTo(mymap4);
+L.marker([-22.912662038229701, -43.236094287729401]).addTo(mymap4);
+L.marker([-22.912662038229701, -43.236094287729401]).addTo(mymap4);
+L.marker([-22.904966649597601, -43.243909630701197]).addTo(mymap4);
+L.marker([-22.9136549597842, -43.242292663189801]).addTo(mymap4);
+L.marker([-22.9099314664536, -43.240675695678398]).addTo(mymap4);
+L.marker([-22.9044701579136, -43.257923349133499]).addTo(mymap4);
+L.marker([-22.9042219113899, -43.244987609042198]).addTo(mymap4);
+L.marker([-22.912910269300099, -43.235824793144197]).addTo(mymap4);
+L.marker([-22.903477169092302, -43.2565758762073]).addTo(mymap4);
+L.marker([-22.9099314664536, -43.236094287729401]).addTo(mymap4);
+L.marker([-22.913158499916101, -43.242023168604597]).addTo(mymap4);
+</script>
+
+<br><br><p>Mapa 5 : 2016-06-22 12:15:00.0 .. 2016-06-22 12:18:00.0</p><div id="map5" style="width: 1200px; height: 800px; position: relative;"></div>
+<script>
+var mymap5 = L.map('map5').setView([-22.90, -43.25], 15);
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+	maxZoom: 18,
+	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+		'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+		'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	id: 'mapbox.streets'
+}).addTo(mymap5);
+
+var polygon = L.polygon([
+	[-22.915, -43.265],
+	[-22.905, -43.265],
+	[-22.905, -43.255],
+	[-22.915, -43.255]
+]).addTo(mymap5);
+var polygon = L.polygon([
+	[-22.915, -43.245],
+	[-22.905, -43.245],
+	[-22.905, -43.235],
+	[-22.915, -43.235]
+]).addTo(mymap5);
+var polygon = L.polygon([
+	[-22.905, -43.255],
+	[-22.895, -43.255],
+	[-22.895, -43.245],
+	[-22.905, -43.245]
+]).addTo(mymap5);
+var polygon = L.polygon([
+	[-22.895, -43.265],
+	[-22.885, -43.265],
+	[-22.885, -43.255],
+	[-22.895, -43.255]
+]).addTo(mymap5);
+var polygon = L.polygon([
+	[-22.895, -43.245],
+	[-22.885, -43.245],
+	[-22.885, -43.235],
+	[-22.895, -43.235]
+]).addTo(mymap5);
+L.marker([-22.897022564538702, -43.249299522405899]).addTo(mymap5);
+L.marker([-22.903228920750902, -43.260079305815403]).addTo(mymap5);
+L.marker([-22.894788206787101, -43.261696273326798]).addTo(mymap5);
+L.marker([-22.894788206787101, -43.261696273326798]).addTo(mymap5);
+L.marker([-22.895036470576699, -43.262235262497299]).addTo(mymap5);
+L.marker([-22.908193801233399, -43.238789233581699]).addTo(mymap5);
+L.marker([-22.898512115928501, -43.243640136115999]).addTo(mymap5);
+L.marker([-22.9007464123444, -43.2546894141107]).addTo(mymap5);
+L.marker([-22.896029521192201, -43.252533457428797]).addTo(mymap5);
+L.marker([-22.903228920750902, -43.246874071138798]).addTo(mymap5);
+L.marker([-22.914647874065398, -43.240406201093201]).addTo(mymap5);
+L.marker([-22.895036470576699, -43.2398672119227]).addTo(mymap5);
+L.marker([-22.912662038229701, -43.241214684848899]).addTo(mymap5);
+L.marker([-22.905214894757901, -43.240406201093201]).addTo(mymap5);
+L.marker([-22.898512115928501, -43.243370641530802]).addTo(mymap5);
+L.marker([-22.896029521192201, -43.240675695678398]).addTo(mymap5);
+L.marker([-22.889822835598402, -43.246874071138798]).addTo(mymap5);
+L.marker([-22.913158499916101, -43.249030027820702]).addTo(mymap5);
+L.marker([-22.895284733912, -43.237441760655599]).addTo(mymap5);
+L.marker([-22.8915607361828, -43.240675695678398]).addTo(mymap5);
+L.marker([-22.901491169637499, -43.250646995332097]).addTo(mymap5);
+L.marker([-22.911669109401998, -43.239597717337503]).addTo(mymap5);
+L.marker([-22.912413806704599, -43.235016309388399]).addTo(mymap5);
+L.marker([-22.8995051411014, -43.2441791252865]).addTo(mymap5);
+L.marker([-22.903973664411801, -43.245257103627402]).addTo(mymap5);
+L.marker([-22.896029521192201, -43.240406201093201]).addTo(mymap5);
+L.marker([-22.903477169092302, -43.256036887036799]).addTo(mymap5);
+L.marker([-22.910924408008501, -43.238250244411297]).addTo(mymap5);
+L.marker([-22.9099314664536, -43.240675695678398]).addTo(mymap5);
+L.marker([-22.904718403982798, -43.254958908695897]).addTo(mymap5);
+L.marker([-22.902980671955099, -43.250108006161703]).addTo(mymap5);
+L.marker([-22.9042219113899, -43.259809811230099]).addTo(mymap5);
+L.marker([-22.895532996793101, -43.237711255240797]).addTo(mymap5);
+L.marker([-22.903477169092302, -43.245526598212599]).addTo(mymap5);
+L.marker([-22.9139031890364, -43.236633276899902]).addTo(mymap5);
+L.marker([-22.913158499916101, -43.246335081968397]).addTo(mymap5);
+L.marker([-22.900249905210298, -43.2522639628435]).addTo(mymap5);
+L.marker([-22.900498159004599, -43.260079305815403]).addTo(mymap5);
+L.marker([-22.913406730077401, -43.235016309388399]).addTo(mymap5);
+</script>
+
+<br><br><p>Mapa 6 : 2016-06-22 12:18:00.0 .. 2016-06-22 12:21:00.0</p><div id="map6" style="width: 1200px; height: 800px; position: relative;"></div>
+<script>
+var mymap6 = L.map('map6').setView([-22.90, -43.25], 15);
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+	maxZoom: 18,
+	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+		'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+		'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	id: 'mapbox.streets'
+}).addTo(mymap6);
+
+var polygon = L.polygon([
+	[-22.915, -43.265],
+	[-22.905, -43.265],
+	[-22.905, -43.255],
+	[-22.915, -43.255]
+]).addTo(mymap6);
+var polygon = L.polygon([
+	[-22.915, -43.245],
+	[-22.905, -43.245],
+	[-22.905, -43.235],
+	[-22.915, -43.235]
+]).addTo(mymap6);
+var polygon = L.polygon([
+	[-22.905, -43.255],
+	[-22.895, -43.255],
+	[-22.895, -43.245],
+	[-22.905, -43.245]
+]).addTo(mymap6);
+var polygon = L.polygon([
+	[-22.895, -43.265],
+	[-22.885, -43.265],
+	[-22.885, -43.255],
+	[-22.895, -43.255]
+]).addTo(mymap6);
+var polygon = L.polygon([
+	[-22.895, -43.245],
+	[-22.885, -43.245],
+	[-22.885, -43.235],
+	[-22.895, -43.235]
+]).addTo(mymap6);
+L.marker([-22.897022564538702, -43.249299522405899]).addTo(mymap6);
+L.marker([-22.912413806704599, -43.236363782314598]).addTo(mymap6);
+L.marker([-22.903725416979299, -43.258731832889197]).addTo(mymap6);
+L.marker([-22.9057113837152, -43.241214684848899]).addTo(mymap6);
+L.marker([-22.9007464123444, -43.2546894141107]).addTo(mymap6);
+L.marker([-22.895284733912, -43.237441760655599]).addTo(mymap6);
+L.marker([-22.912910269300099, -43.248491038650201]).addTo(mymap6);
+L.marker([-22.9139031890364, -43.244448619871697]).addTo(mymap6);
+L.marker([-22.9084420404855, -43.238789233581699]).addTo(mymap6);
+L.marker([-22.904718403982798, -43.243640136115999]).addTo(mymap6);
+L.marker([-22.900001650961698, -43.250108006161703]).addTo(mymap6);
+L.marker([-22.9136549597842, -43.263852230008702]).addTo(mymap6);
+L.marker([-22.912662038229701, -43.262504757082503]).addTo(mymap6);
+L.marker([-22.889822835598402, -43.243370641530802]).addTo(mymap6);
+L.marker([-22.9024841730002, -43.243909630701197]).addTo(mymap6);
+L.marker([-22.905463139463802, -43.241484179434103]).addTo(mymap6);
+L.marker([-22.9024841730002, -43.259001327474401]).addTo(mymap6);
+L.marker([-22.9086902792831, -43.238789233581699]).addTo(mymap6);
+L.marker([-22.9044701579136, -43.244718114456902]).addTo(mymap6);
+L.marker([-22.901491169637499, -43.244718114456902]).addTo(mymap6);
+L.marker([-22.912413806704599, -43.240945190263602]).addTo(mymap6);
+L.marker([-22.895532996793101, -43.237980749826001]).addTo(mymap6);
+L.marker([-22.909434992948999, -43.238250244411297]).addTo(mymap6);
+</script>
+
+<br><br><p>Mapa 7 : 2016-06-22 12:21:00.0 .. 2016-06-22 12:24:00.0</p><div id="map7" style="width: 1200px; height: 800px; position: relative;"></div>
+<script>
+var mymap7 = L.map('map7').setView([-22.90, -43.25], 15);
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+	maxZoom: 18,
+	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+		'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+		'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	id: 'mapbox.streets'
+}).addTo(mymap7);
+
+var polygon = L.polygon([
+	[-22.915, -43.265],
+	[-22.905, -43.265],
+	[-22.905, -43.255],
+	[-22.915, -43.255]
+]).addTo(mymap7);
+var polygon = L.polygon([
+	[-22.915, -43.245],
+	[-22.905, -43.245],
+	[-22.905, -43.235],
+	[-22.915, -43.235]
+]).addTo(mymap7);
+var polygon = L.polygon([
+	[-22.905, -43.255],
+	[-22.895, -43.255],
+	[-22.895, -43.245],
+	[-22.905, -43.245]
+]).addTo(mymap7);
+var polygon = L.polygon([
+	[-22.895, -43.265],
+	[-22.885, -43.265],
+	[-22.885, -43.255],
+	[-22.895, -43.255]
+]).addTo(mymap7);
+var polygon = L.polygon([
+	[-22.895, -43.245],
+	[-22.885, -43.245],
+	[-22.885, -43.235],
+	[-22.895, -43.235]
+]).addTo(mymap7);
+L.marker([-22.904718403982798, -43.242831652360302]).addTo(mymap7);
+L.marker([-22.895781259219799, -43.252533457428797]).addTo(mymap7);
+L.marker([-22.900994665229799, -43.244448619871697]).addTo(mymap7);
+L.marker([-22.912910269300099, -43.248491038650201]).addTo(mymap7);
+L.marker([-22.896029521192201, -43.240945190263602]).addTo(mymap7);
+L.marker([-22.9136549597842, -43.242562157775097]).addTo(mymap7);
+L.marker([-22.913158499916101, -43.245526598212599]).addTo(mymap7);
+L.marker([-22.9084420404855, -43.235824793144197]).addTo(mymap7);
+L.marker([-22.902980671955099, -43.250646995332097]).addTo(mymap7);
+L.marker([-22.9007464123444, -43.2546894141107]).addTo(mymap7);
+L.marker([-22.895284733912, -43.2627742516677]).addTo(mymap7);
+L.marker([-22.900994665229799, -43.244448619871697]).addTo(mymap7);
+L.marker([-22.899256885489802, -43.243909630701197]).addTo(mymap7);
+L.marker([-22.902980671955099, -43.2503775007469]).addTo(mymap7);
+L.marker([-22.8937951470858, -43.259001327474401]).addTo(mymap7);
+L.marker([-22.913158499916101, -43.2355552985589]).addTo(mymap7);
+L.marker([-22.897767342278101, -43.243101146945499]).addTo(mymap7);
+L.marker([-22.9143996461769, -43.235824793144197]).addTo(mymap7);
+L.marker([-22.914647874065398, -43.2646607137644]).addTo(mymap7);
+L.marker([-22.894788206787101, -43.238250244411297]).addTo(mymap7);
+</script>
+
+<br><br><p>Mapa 8 : 2016-06-22 12:24:00.0 .. 2016-06-22 12:27:00.0</p><div id="map8" style="width: 1200px; height: 800px; position: relative;"></div>
+<script>
+var mymap8 = L.map('map8').setView([-22.90, -43.25], 15);
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+	maxZoom: 18,
+	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+		'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+		'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	id: 'mapbox.streets'
+}).addTo(mymap8);
+
+var polygon = L.polygon([
+	[-22.915, -43.265],
+	[-22.905, -43.265],
+	[-22.905, -43.255],
+	[-22.915, -43.255]
+]).addTo(mymap8);
+var polygon = L.polygon([
+	[-22.915, -43.245],
+	[-22.905, -43.245],
+	[-22.905, -43.235],
+	[-22.915, -43.235]
+]).addTo(mymap8);
+var polygon = L.polygon([
+	[-22.905, -43.255],
+	[-22.895, -43.255],
+	[-22.895, -43.245],
+	[-22.905, -43.245]
+]).addTo(mymap8);
+var polygon = L.polygon([
+	[-22.895, -43.265],
+	[-22.885, -43.265],
+	[-22.885, -43.255],
+	[-22.895, -43.255]
+]).addTo(mymap8);
+var polygon = L.polygon([
+	[-22.895, -43.245],
+	[-22.885, -43.245],
+	[-22.885, -43.235],
+	[-22.895, -43.235]
+]).addTo(mymap8);
+L.marker([-22.903973664411801, -43.2608877895711]).addTo(mymap8);
+L.marker([-22.9069525981553, -43.238250244411297]).addTo(mymap8);
+L.marker([-22.9007464123444, -43.2546894141107]).addTo(mymap8);
+L.marker([-22.896526043774099, -43.242023168604597]).addTo(mymap8);
+L.marker([-22.911172642260901, -43.237711255240797]).addTo(mymap8);
+L.marker([-22.911917342290799, -43.237172266070303]).addTo(mymap8);
+L.marker([-22.912910269300099, -43.247143565724102]).addTo(mymap8);
+L.marker([-22.904718403982798, -43.2417536740193]).addTo(mymap8);
+L.marker([-22.912413806704599, -43.240675695678398]).addTo(mymap8);
+L.marker([-22.912413806704599, -43.240675695678398]).addTo(mymap8);
+L.marker([-22.913158499916101, -43.245257103627402]).addTo(mymap8);
+L.marker([-22.904966649597601, -43.2603488004006]).addTo(mymap8);
+L.marker([-22.8937951470858, -43.239328222752199]).addTo(mymap8);
+L.marker([-22.894788206787101, -43.239597717337503]).addTo(mymap8);
+L.marker([-22.9086902792831, -43.238519738996501]).addTo(mymap8);
+L.marker([-22.914647874065398, -43.239328222752199]).addTo(mymap8);
+L.marker([-22.910924408008501, -43.238250244411297]).addTo(mymap8);
+L.marker([-22.910924408008501, -43.238250244411297]).addTo(mymap8);
+L.marker([-22.897022564538702, -43.254419919525397]).addTo(mymap8);
+L.marker([-22.9086902792831, -43.238519738996501]).addTo(mymap8);
+L.marker([-22.893546881024701, -43.239328222752199]).addTo(mymap8);
+L.marker([-22.894539942543201, -43.238789233581699]).addTo(mymap8);
+L.marker([-22.9096832299285, -43.2398672119227]).addTo(mymap8);
+L.marker([-22.914151417833899, -43.242292663189801]).addTo(mymap8);
+L.marker([-22.914151417833899, -43.242292663189801]).addTo(mymap8);
+L.marker([-22.9064561137426, -43.240136706507897]).addTo(mymap8);
+L.marker([-22.902980671955099, -43.250646995332097]).addTo(mymap8);
+</script>
+
+<br><br><p>Mapa 9 : 2016-06-22 12:27:00.0 .. 2016-06-22 12:30:00.0</p><div id="map9" style="width: 1200px; height: 800px; position: relative;"></div>
+<script>
+var mymap9 = L.map('map9').setView([-22.90, -43.25], 15);
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+	maxZoom: 18,
+	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+		'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+		'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	id: 'mapbox.streets'
+}).addTo(mymap9);
+
+var polygon = L.polygon([
+	[-22.915, -43.265],
+	[-22.905, -43.265],
+	[-22.905, -43.255],
+	[-22.915, -43.255]
+]).addTo(mymap9);
+var polygon = L.polygon([
+	[-22.915, -43.245],
+	[-22.905, -43.245],
+	[-22.905, -43.235],
+	[-22.915, -43.235]
+]).addTo(mymap9);
+var polygon = L.polygon([
+	[-22.905, -43.255],
+	[-22.895, -43.255],
+	[-22.895, -43.245],
+	[-22.905, -43.245]
+]).addTo(mymap9);
+var polygon = L.polygon([
+	[-22.895, -43.265],
+	[-22.885, -43.265],
+	[-22.885, -43.255],
+	[-22.895, -43.255]
+]).addTo(mymap9);
+var polygon = L.polygon([
+	[-22.895, -43.245],
+	[-22.885, -43.245],
+	[-22.885, -43.235],
+	[-22.895, -43.235]
+]).addTo(mymap9);
+L.marker([-22.895781259219799, -43.252533457428797]).addTo(mymap9);
+L.marker([-22.895036470576699, -43.240136706507897]).addTo(mymap9);
+L.marker([-22.902980671955099, -43.247413060309299]).addTo(mymap9);
+L.marker([-22.9007464123444, -43.2546894141107]).addTo(mymap9);
+L.marker([-22.902980671955099, -43.2503775007469]).addTo(mymap9);
+L.marker([-22.900249905210298, -43.2441791252865]).addTo(mymap9);
+L.marker([-22.901987672227701, -43.244718114456902]).addTo(mymap9);
+L.marker([-22.894291677845001, -43.242023168604597]).addTo(mymap9);
+L.marker([-22.890071108473201, -43.243640136115999]).addTo(mymap9);
+L.marker([-22.9007464123444, -43.246874071138798]).addTo(mymap9);
+L.marker([-22.903228920750902, -43.252802952014001]).addTo(mymap9);
+L.marker([-22.9042219113899, -43.263852230008702]).addTo(mymap9);
+L.marker([-22.893298614509401, -43.239328222752199]).addTo(mymap9);
+L.marker([-22.891312466033501, -43.261965767912002]).addTo(mymap9);
+</script>
+
+<script>
+L.circle([-22.91, -43.24], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap0)
+.bindPopup('9')
+.openPopup();
+
+L.circle([-22.91, -43.24], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap1)
+.bindPopup('7')
+.openPopup();
+
+L.circle([-22.91, -43.24], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap1)
+.bindPopup('7')
+.openPopup();
+
+L.circle([-22.91, -43.24], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap2)
+.bindPopup('15')
+.openPopup();
+
+L.circle([-22.91, -43.24], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap2)
+.bindPopup('15')
+.openPopup();
+
+L.circle([-22.90, -43.24], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap3)
+.bindPopup('10')
+.openPopup();
+
+var polygon = L.polygon([
+	[-22.9060, -43.2405],
+	[-22.9060, -43.2395],
+	[-22.9050, -43.2395],
+	[-22.9050, -43.2390],
+	[-22.9040, -43.2400],
+	[-22.9050, -43.2410],
+	[-22.9050, -43.2405],
+	[-22.9060, -43.2405],
+], {color: 'green'}).addTo(mymap3);
+L.circle([-22.90, -43.24], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap3)
+.bindPopup('10')
+.openPopup();
+
+L.circle([-22.91, -43.24], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap4)
+.bindPopup('14')
+.openPopup();
+
+var polygon = L.polygon([
+	[-22.9039999999999999999387676600426323396413117985270801697687153937661209968101871936596580781042575836181640625, -43.2394999999999999995101412803410587171304943882166413581497231501289679744814975492772646248340606689453125000],
+	[-22.9040000000000000000612323399573676603586882014729198302312846062338790031898128063403419218957424163818359375, -43.2404999999999999995101412803410587171304943882166413581497231501289679744814975492772646248340606689453125000],
+	[-22.9050000000000000000612323399573676603586882014729198302312846062338790031898128063403419218957424163818359375, -43.2404999999999999993876766004263233964131179852708016976871539376612099681018719365965807810425758361816406250],
+	[-22.9050000000000000001224646799147353207173764029458396604625692124677580063796256126806838437914848327636718750, -43.2409999999999999993876766004263233964131179852708016976871539376612099681018719365965807810425758361816406250],
+	[-22.9060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, -43.2399999999999999992652119205115880756957415823249620372245847251934519617222463239158969372510910034179687500],
+	[-22.9049999999999999998775353200852646792826235970541603395374307875322419936203743873193161562085151672363281250, -43.2389999999999999993876766004263233964131179852708016976871539376612099681018719365965807810425758361816406250],
+	[-22.9049999999999999999387676600426323396413117985270801697687153937661209968101871936596580781042575836181640625, -43.2394999999999999993876766004263233964131179852708016976871539376612099681018719365965807810425758361816406250],
+	[-22.9039999999999999999387676600426323396413117985270801697687153937661209968101871936596580781042575836181640625, -43.2394999999999999995101412803410587171304943882166413581497231501289679744814975492772646248340606689453125000],
+], {color: 'green'}).addTo(mymap4);
+L.circle([-22.91, -43.24], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap4)
+.bindPopup('14')
+.openPopup();
+
+L.circle([-22.91, -43.24], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap5)
+.bindPopup('10')
+.openPopup();
+
+L.circle([-22.91, -43.24], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap5)
+.bindPopup('10')
+.openPopup();
+
+L.circle([-22.91, -43.24], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap6)
+.bindPopup('8')
+.openPopup();
+
+L.circle([-22.91, -43.24], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap6)
+.bindPopup('8')
+.openPopup();
+
+L.circle([-22.90, -43.24], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap7)
+.bindPopup('6')
+.openPopup();
+
+var polygon = L.polygon([
+	[-22.9060, -43.2405],
+	[-22.9060, -43.2395],
+	[-22.9050, -43.2395],
+	[-22.9050, -43.2390],
+	[-22.9040, -43.2400],
+	[-22.9050, -43.2410],
+	[-22.9050, -43.2405],
+	[-22.9060, -43.2405],
+], {color: 'green'}).addTo(mymap7);
+L.circle([-22.90, -43.24], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap7)
+.bindPopup('6')
+.openPopup();
+
+L.circle([-22.91, -43.24], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap8)
+.bindPopup('14')
+.openPopup();
+
+var polygon = L.polygon([
+	[-22.9039999999999999999387676600426323396413117985270801697687153937661209968101871936596580781042575836181640625, -43.2394999999999999995101412803410587171304943882166413581497231501289679744814975492772646248340606689453125000],
+	[-22.9040000000000000000612323399573676603586882014729198302312846062338790031898128063403419218957424163818359375, -43.2404999999999999995101412803410587171304943882166413581497231501289679744814975492772646248340606689453125000],
+	[-22.9050000000000000000612323399573676603586882014729198302312846062338790031898128063403419218957424163818359375, -43.2404999999999999993876766004263233964131179852708016976871539376612099681018719365965807810425758361816406250],
+	[-22.9050000000000000001224646799147353207173764029458396604625692124677580063796256126806838437914848327636718750, -43.2409999999999999993876766004263233964131179852708016976871539376612099681018719365965807810425758361816406250],
+	[-22.9060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, -43.2399999999999999992652119205115880756957415823249620372245847251934519617222463239158969372510910034179687500],
+	[-22.9049999999999999998775353200852646792826235970541603395374307875322419936203743873193161562085151672363281250, -43.2389999999999999993876766004263233964131179852708016976871539376612099681018719365965807810425758361816406250],
+	[-22.9049999999999999999387676600426323396413117985270801697687153937661209968101871936596580781042575836181640625, -43.2394999999999999993876766004263233964131179852708016976871539376612099681018719365965807810425758361816406250],
+	[-22.9039999999999999999387676600426323396413117985270801697687153937661209968101871936596580781042575836181640625, -43.2394999999999999995101412803410587171304943882166413581497231501289679744814975492772646248340606689453125000],
+], {color: 'green'}).addTo(mymap8);
+L.circle([-22.91, -43.24], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap8)
+.bindPopup('14')
+.openPopup();
+
+L.circle([-22.90, -43.25], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap9)
+.bindPopup('6')
+.openPopup();
+
+var polygon = L.polygon([
+	[-22.907525126265847084439108982678590109571814537048339843750, -43.243181980515339464410384806569709326140582561492919921875],
+	[-22.906818019484660536755349369286705041304230690002441406250, -43.242474873734152917059692100565371220000088214874267578125],
+	[-22.906110912703473989404656663282366935163736343383789062500, -43.243181980515339464743451713957256288267672061920166015625],
+	[-22.905757359312880715562776856586424401029944419860839843750, -43.242828427124746191068105360955087235197424888610839843750],
+	[-22.905757359312880715895843763973971363157033920288085937500, -43.244242640687119286102557680351310409605503082275390625000],
+	[-22.907171572875253810930296083370194537565112113952636718750, -43.244242640687119285769490772963763447478413581848144531250],
+	[-22.906818019484660537088416276674252003431320190429687500000, -43.243889087296526012094144419961594394408166408538818359375],
+	[-22.907525126265847084439108982678590109571814537048339843750, -43.243181980515339464410384806569709326140582561492919921875],
+], {color: 'green'}).addTo(mymap9);
+L.circle([-22.90, -43.25], {
+	color: 'red',
+	fillColor: '#f03',
+	fillOpacity: 0.5,
+	radius: 100
+}).addTo(mymap9)
+.bindPopup('6')
+.openPopup();
+
+</script>
+
+
+</body>
+</html>
+
