@@ -94,6 +94,28 @@ public class Search {
 		if (celInFirstLine!=fimLinha) {	// Se a celula central não for o ultimo quadrado da linha,
 			r=cel+1;					// existe vizinho direito
 		}
+		
+		if (cel>(fimLinha*(fimLinha-1))) { // Se a celula não está na ultima linha, não tem ninguem acima (tL+t+tR)
+			tL=0;
+			t=0;
+			tR=0;
+		} else {
+			Integer tInFirstLine = t;				// Para saber se o vizinho superior está no primeiro ou			
+			while (tInFirstLine>fimLinha) {			// no ultimo quadrado na linha, vamos "desce-lo" a primeira
+				tInFirstLine=tInFirstLine-fimLinha;	// linha			
+			}
+
+			if (tInFirstLine!=1) {	// Se o vizinho superior não for o primeiro quadrado da linha,
+				tL=cel+fimLinha-1;	// existe vizinho superior esquerdo
+			} else {
+				tL=0;
+			}
+			if (tInFirstLine!=fimLinha) {	// Se o vizinho superior não for o ultimo quadrado da linha,
+				tR=cel+fimLinha+1;			// existe vizinho superior direito
+			} else {
+				tR=0;
+			}
+		}
 		listCel.add(tL);
 		listCel.add(t);
 		listCel.add(tR);
@@ -102,9 +124,9 @@ public class Search {
 		listCel.add(bL);
 		listCel.add(b);
 		listCel.add(bR);
-		System.out.println(String.format("%d - %d - %d", tL, t, tR));
-		System.out.println(String.format("%d - %d - %d", l, cel, r));
-		System.out.println(String.format("%d - %d - %d", bL, b, bR));
+		// System.out.println(String.format("%d - %d - %d", tL, t, tR));
+		// System.out.println(String.format("%d - %d - %d", l, cel, r));
+		// System.out.println(String.format("%d - %d - %d", bL, b, bR));
 		return listCel;
 	}
 }

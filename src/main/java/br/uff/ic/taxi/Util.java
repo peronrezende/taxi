@@ -3,6 +3,7 @@ package br.uff.ic.taxi;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -15,7 +16,7 @@ public class Util {
 		for (Count c : listCount) {			
 			if (c.getMapa().equals(count.getMapa())) {
 				if (c.getCelula().equals(count.getCelula()) || listCel.contains(c.getCelula())) {
-					System.out.println(String.format("Celula %d Total %d", c.getCelula(), c.getTotal()));
+					System.out.println(String.format("-Mapa %d Celula %d Total %d", c.getMapa(), c.getCelula(), c.getTotal()));
 				}
 			}
 		}		
@@ -40,6 +41,13 @@ public class Util {
 		printWriter.println(conteudo);
 		printWriter.println(rodape);
 		printWriter.close();
+	}
+
+	public static Ponto setPonto(Count org, Count dst) {
+		BigDecimal latitude = dst.getLatitudeCentral().subtract(org.getLatitudeCentral());
+		BigDecimal longitude = dst.getLongitudeCentral().subtract(org.getLongitudeCentral());
+		Ponto ponto = new Ponto(latitude, longitude);
+		return ponto;
 	}
 
 }

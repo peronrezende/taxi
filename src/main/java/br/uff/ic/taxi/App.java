@@ -19,36 +19,20 @@ public class App
 			Database database = new Database();
 			
 			StringBuilder conteudo = new StringBuilder();
-			List<Count> listCount = new ArrayList<Count>();
-			/*
-			 * Desenha os mapas, seus quadrados, seus taxis e conta quantos taxis tem dentro de 
-			 * cada quadrado de cada mapa
-			 */
+			StringBuilder setas = new StringBuilder();
 			for (int i=0; i<config.getMapas(); i++) {
+				List<Count> listCount = new ArrayList<Count>();
 				List<Ponto> listTaxi = database.getListTaxi(i, config);
-				StringBuilder map = JavaScript.drawMap(i, database.getStart(), database.getEnd(), config); 						
+				String map = JavaScript.drawMap(i, database.getStart(), database.getEnd(), config); 						
 
 				StringBuilder quadrados = new StringBuilder();
-				Boolean desenha = true;
 				BigDecimal tL = new BigDecimal(config.getTamanhoLateral());
 				BigDecimal lado = tL.divide(config.FRACAO);
 				BigDecimal lat = config.getLatitudeMin();
 				Integer celula = 1;
 				while (lat.compareTo(config.getLatitudeMax())<0) {
 					BigDecimal lng = config.getLongitudeMin();
-					while (lng.compareTo(config.getLongitudeMax())<0) {
-						/*
-						 * Desenha o quadrado
-						 */
-						if (desenha) { // Hora desenha, hora não desenha
-							if ((lng).compareTo(config.getLongitudeMax())<0) {
-								quadrados.append(JavaScript.drawSquare(i, lat, lng, lado));
-							}
-							desenha=false;
-						} else {
-							desenha=true;
-						}
-												
+					while (lng.compareTo(config.getLongitudeMax())<0) {												
 						/*
 						 * Conta quantos Taxis tem dentro do quadrado
 						 */
@@ -60,13 +44,11 @@ public class App
 							}
 						}
 						if (total>0) {
-							listCount.add(new Count(i, celula, total));
+							listCount.add(new Count(i, celula, total, lat, lng, lado));
+							quadrados.append(JavaScript.drawSquare(i, lat, lng, lado, total, celula));
 						}
 						lng=lng.add(lado);
 						celula++;
-					}
-					if ((config.getVizinhos() % 2) == 0) {
-						desenha=!desenha; // Para alternar na troca de linha
 					}
 					lat=lat.add(lado);
 				}
@@ -79,41 +61,40 @@ public class App
 					taxis.append(JavaScript.drawTaxi(i, taxi));
 				}
 				taxis.append("</script>\n\n");				
+
+				/*
+				 * Desenha as setas 
+				 */
+				List<Ponto> listPonto = new ArrayList<Ponto>();
+				for (Count org : listCount) {
+					// Util.ShowDados(org, listCount);
+					Count dst = Search.maxNeighbor(i, org, listCount);
+					setas.append(PreProcess.arrow(org, dst));
+					listPonto.add(Util.setPonto(org, dst));
+				}
+
+				System.out.print("Mapa ");
+				System.out.println(i);
+				for (Ponto ponto : listPonto) {
+					System.out.print(ponto.getLatitude());
+					System.out.print(" ");
+					System.out.println(ponto.getLongitude());
+				}
 				
 				conteudo.append(map.toString());
 				conteudo.append(quadrados.toString());
 				conteudo.append(taxis.toString());
 			}	
 
-			/*
-			 * Desenha um circulo no quadrado com mais taxis no primeiro mapa 
-			 */
-			Count count = Search.maxCountMapZero(listCount);
-			StringBuilder circulos = new StringBuilder();
-			Integer mapa = 0;
-			while (mapa < config.getMapas()) {
-				Util.ShowDados(count, listCount);
-				circulos.append(PreProcess.circle(count));
-				mapa++;
-				if (mapa < config.getMapas()) {
-					/*
-					 * Identifica e desenha um circulo no vizinho com mais taxis no mapa seguinte 
-					 */
-					Count org = count;
-					count = Search.maxNeighbor(mapa, count, listCount);
-					circulos.append(PreProcess.circle(count));
-					circulos.append(PreProcess.arrow(org, count));
-				}
-			}
 			conteudo.append("<script>\n");
-			conteudo.append(circulos.toString());
+			conteudo.append(setas.toString());
 			conteudo.append("</script>\n");
 
 			String cabecalho = Util.readFile("cabecalho.txt", Charset.defaultCharset());
 			String rodape = Util.readFile("rodape.txt", Charset.defaultCharset());
 			
 			Util.build(cabecalho, conteudo.toString(), rodape);
-			database.close();
+			database.close();			
 		} catch ( Exception e ) {
 			System.err.println( e.getClass().getName()+": "+ e.getMessage() );
 			System.exit(0);

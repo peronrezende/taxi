@@ -33,7 +33,7 @@ public class PreProcess {
 			// Posiciona a seta na parte superior do quadrado
 			lat = lat.subtract(lado.divide(new BigDecimal(4*5)).multiply(new BigDecimal(3)));
 			lng = lng.subtract(lado.divide(new BigDecimal(4*5)).multiply(new BigDecimal(3)));			
-			lat = lat.add(lado.divide(new BigDecimal(2)));
+			lat = lat.add(lado.divide(new BigDecimal(4)));
 			
 			BigDecimal grau = null;
 			if (dst.getCelula().equals(org.getCelula()+linha)) { 			// Acima
