@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -43,10 +44,14 @@ public class Util {
 		printWriter.close();
 	}
 
-	public static Ponto setPonto(Count org, Count dst) {
-		BigDecimal latitude = dst.getLatitudeCentral().subtract(org.getLatitudeCentral());
-		BigDecimal longitude = dst.getLongitudeCentral().subtract(org.getLongitudeCentral());
-		Ponto ponto = new Ponto(latitude, longitude);
+	public static Point setPonto(Integer i, Count org, Count dst) {
+		BigDecimal y = dst.getLatitudeCentral().subtract(org.getLatitudeCentral());
+		y.setScale(10, RoundingMode.HALF_UP);
+		BigDecimal x = dst.getLongitudeCentral().subtract(org.getLongitudeCentral());
+		x.setScale(10, RoundingMode.HALF_UP);
+		Point ponto = new Point(i, x, y);
+		ponto.setLatitude(org.getLatitudeCentral());
+		ponto.setLongitude(org.getLongitudeCentral());
 		return ponto;
 	}
 

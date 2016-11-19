@@ -35,7 +35,7 @@ public class Database {
 		connection.setAutoCommit(false);
 	}
 
-	public List<Ponto> getListTaxi(Integer mapa, Config config) throws SQLException {
+	public List<Point> getListTaxi(Integer mapa, Config config) throws SQLException {
 		Long intervalo = (config.getDataHoraFim().getTime() - config.getDataHoraInicio().getTime()) / config.getMapas();
 		
 		preparedStatement = connection.prepareStatement("SELECT latitude, longitude FROM \"MB\".\"Dados_local_Taxi\" WHERE "
@@ -56,9 +56,9 @@ public class Database {
 		preparedStatement.setBigDecimal(6, config.getLongitudeMin());
 		preparedStatement.setBigDecimal(7, config.getLongitudeMax());
 		ResultSet rs = preparedStatement.executeQuery();
-		List<Ponto> list = new ArrayList<Ponto>();
+		List<Point> list = new ArrayList<Point>();
 		while (rs.next()) {
-			list.add(new Ponto(rs.getBigDecimal("latitude"), rs.getBigDecimal("longitude")));
+			list.add(new Point(rs.getBigDecimal("latitude"), rs.getBigDecimal("longitude")));
 		}
 		preparedStatement.close();
 		return list;

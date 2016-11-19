@@ -1,11 +1,14 @@
 package br.uff.ic.taxi;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.List;
 
 public class JavaScript {
 	public static String drawCircle(Count count, BigDecimal lat, BigDecimal lng) {
+		lat.setScale(10, RoundingMode.HALF_UP);
+		lng.setScale(10, RoundingMode.HALF_UP);
 		StringBuilder code = new StringBuilder();
 		code.append("L.circle([");
 		code.append(lat);
@@ -65,7 +68,7 @@ public class JavaScript {
 		return code.toString();
 	}
 
-	public static String drawArrow(Count dst, List<Ponto> listPonto) {
+	public static String drawArrow(Count dst, List<Point> listPonto) {
 		StringBuilder code = new StringBuilder();
 		code.append("var polygon = L.polygon([\n");
 
@@ -120,7 +123,7 @@ public class JavaScript {
 		return code.toString();
 	}
 
-	public static String drawTaxi(Integer map, Ponto taxi) {
+	public static String drawTaxi(Integer map, Point taxi) {
 		StringBuilder code = new StringBuilder(); 
 		code.append("L.marker([");
 		code.append(taxi.getLatitude());
@@ -133,6 +136,9 @@ public class JavaScript {
 	}
 
 	public static String drawSquare(Integer map, BigDecimal lat, BigDecimal lng, BigDecimal lado) {
+		lat.setScale(10, RoundingMode.HALF_UP);
+		lng.setScale(10, RoundingMode.HALF_UP);
+		lado.setScale(10, RoundingMode.HALF_UP);
 		StringBuilder code = new StringBuilder();
 		code.append("var polygon = L.polygon([\n");
 		code.append("\t[");
@@ -162,6 +168,9 @@ public class JavaScript {
 	}
 
 	public static String drawSquare(Integer map, BigDecimal lat, BigDecimal lng, BigDecimal lado, Integer total, Integer celula) {
+		lat.setScale(10, RoundingMode.HALF_UP);
+		lng.setScale(10, RoundingMode.HALF_UP);
+		lado.setScale(10, RoundingMode.HALF_UP);
 		Integer r = (total * 200 / 50)+55;
 		String hex = String.format("#%02x%02x%02x", r, 0, 0);
 
