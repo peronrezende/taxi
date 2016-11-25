@@ -1,3 +1,8 @@
-
+<script>
+	$(document).ready(function()
+	{
+		actionInit();
+	});
+</script>
 </body>
 </html>

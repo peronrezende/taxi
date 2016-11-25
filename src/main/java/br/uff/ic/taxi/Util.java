@@ -1,10 +1,10 @@
 package br.uff.ic.taxi;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -30,11 +30,18 @@ public class Util {
 	  return new String(encoded, encoding);
 	}
 		
-	public static void build(String cabecalho, String conteudo, String rodape) {
-		String fileName = "magic.html";
+	public static void build(String name, Integer i, String cabecalho, String conteudo, String rodape) {
+		StringBuilder fileName = new StringBuilder();
+		fileName.append("map");
+		fileName.append(i);
+		File file = new File(fileName.toString());
+		file.mkdirs();
+		
+		fileName.append("/");
+		fileName.append(name);
 		PrintWriter printWriter = null;
-		try {
-			printWriter = new PrintWriter(fileName);
+		try {			
+			printWriter = new PrintWriter(fileName.toString());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -46,9 +53,7 @@ public class Util {
 
 	public static Point setPonto(Integer i, Count org, Count dst) {
 		BigDecimal y = dst.getLatitudeCentral().subtract(org.getLatitudeCentral());
-		y.setScale(10, RoundingMode.HALF_UP);
 		BigDecimal x = dst.getLongitudeCentral().subtract(org.getLongitudeCentral());
-		x.setScale(10, RoundingMode.HALF_UP);
 		Point ponto = new Point(i, x, y);
 		ponto.setLatitude(org.getLatitudeCentral());
 		ponto.setLongitude(org.getLongitudeCentral());

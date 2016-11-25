@@ -10,21 +10,19 @@ public class Point {
 	private BigDecimal x = BigDecimal.ZERO;
 	private BigDecimal y = BigDecimal.ZERO;
 	private int i = -1;
+	private BigDecimal u = BigDecimal.ZERO;
+	private BigDecimal s = BigDecimal.ZERO;
 	
 	public Point(Integer i, BigDecimal x, BigDecimal y) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.i = i;
-		this.x.setScale(10, RoundingMode.HALF_UP);
-		this.y.setScale(10, RoundingMode.HALF_UP);
 	}
 	public Point(BigDecimal latitude, BigDecimal longitude) {
 		super();
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.latitude.setScale(10, RoundingMode.HALF_UP);
-		this.longitude.setScale(10, RoundingMode.HALF_UP);
 	}
 	public Point() {
 
@@ -35,7 +33,6 @@ public class Point {
 	}
 	public void setLatitude(BigDecimal latitude) {
 		this.latitude = latitude;
-		this.latitude.setScale(10, RoundingMode.HALF_UP);
 	}
 	public BigDecimal getLongitude() {
 		longitude.setScale(10, RoundingMode.HALF_UP);
@@ -43,7 +40,6 @@ public class Point {
 	}
 	public void setLongitude(BigDecimal longitude) {
 		this.longitude = longitude;
-		this.longitude.setScale(10, RoundingMode.HALF_UP);
 	}
 	public int getI() {
 		return i;
@@ -52,24 +48,44 @@ public class Point {
 		this.i = i;
 	}
 	public double getV() {
-		if ((x.compareTo(BigDecimal.ZERO) == 0) && (y.compareTo(BigDecimal.ZERO) == 0)) {
+		/*if ((x.compareTo(BigDecimal.ZERO) == 0) && (y.compareTo(BigDecimal.ZERO) == 0)) {
 			return 0.0;
 		} else {
 			return 1.0;
-		}
+		}*/
+		return 1.0;
 	}
 	public BigDecimal getX() {
 		return x;
 	}
 	public void setX(BigDecimal x) {
 		this.x = x;
-		this.x.setScale(10, RoundingMode.HALF_UP);
 	}
 	public BigDecimal getY() {
 		return y;
 	}
 	public void setY(BigDecimal y) {
 		this.y = y;
-		this.y.setScale(10, RoundingMode.HALF_UP);
 	}
+	public BigDecimal getU() {
+		u.setScale(10, RoundingMode.HALF_UP);
+		return u.round(new MathContext(10, RoundingMode.HALF_UP));
+	}
+	public void setU(BigDecimal u) {
+		this.u = u;
+	}
+	public BigDecimal getS() {
+		s.setScale(10, RoundingMode.HALF_UP);
+		return s.round(new MathContext(10, RoundingMode.HALF_UP));
+	}
+	public void setS(BigDecimal s) {
+		this.s = s;
+	}
+	public void setU(double u) {
+		setU(new BigDecimal(u));
+	}
+	public void setS(double s) {
+		setS(new BigDecimal(s));
+	}
+
 }

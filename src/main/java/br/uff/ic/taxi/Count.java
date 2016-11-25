@@ -1,7 +1,6 @@
 package br.uff.ic.taxi;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class Count {
 	private Integer mapa;
@@ -15,9 +14,7 @@ public class Count {
 		this.celula=celula;
 		this.total=total;
 		this.latitudeCentral = latitude.add(lado.divide(new BigDecimal(2)));
-		this.latitudeCentral.setScale(10, RoundingMode.HALF_UP);
 		this.longitudeCentral = longitude.add(lado.divide(new BigDecimal(2)));
-		this.longitudeCentral.setScale(10, RoundingMode.HALF_UP);
 	}
 	
 	public Integer getMapa() {
@@ -43,13 +40,11 @@ public class Count {
 	}
 	public void setLatitudeCentral(BigDecimal latitudeCentral) {
 		this.latitudeCentral = latitudeCentral;
-		this.latitudeCentral.setScale(10, RoundingMode.HALF_UP);
 	}
 	public BigDecimal getLongitudeCentral() {
 		return longitudeCentral;
 	}
 	public void setLongitudeCentral(BigDecimal longitudeCentral) {
 		this.longitudeCentral = longitudeCentral;
-		this.longitudeCentral.setScale(10, RoundingMode.HALF_UP);
 	}
 }

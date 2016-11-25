@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.Properties;
 
@@ -28,6 +27,7 @@ public class Config {
 	private BigDecimal longitudeMin;
 	private BigDecimal longitudeMax;
 	private Long raio;
+	private Integer marcas = 1;
 	public BigDecimal FRACAO = new BigDecimal(10000000000000l);
 
 	public Config() {
@@ -79,21 +79,13 @@ public class Config {
 		Long a = (long) Math.sqrt(Math.pow(tamanhoLateral,2) + Math.pow(tamanhoLateral,2)); 
 		raio = a + (a*getVizinhos()*2);
 		BigDecimal tL = new BigDecimal(tamanhoLateral);
-		tL.setScale(10, RoundingMode.HALF_UP);
 		BigDecimal lado = tL.divide(FRACAO);
-		lado.setScale(10, RoundingMode.HALF_UP);
 		BigDecimal v = new BigDecimal(getVizinhos());
-		v.setScale(10, RoundingMode.HALF_UP);
 		BigDecimal dois = new BigDecimal(2l);
-		dois.setScale(10, RoundingMode.HALF_UP);
 		latitudeMin = getLatitude().subtract(lado.divide(dois)).subtract(lado.multiply(v));
 		latitudeMax = getLatitude().add(lado.divide(dois)).add(lado.multiply(v));
 		longitudeMin = getLongitude().subtract(lado.divide(dois)).subtract(lado.multiply(v)); 
 		longitudeMax = getLongitude().add(lado.divide(dois)).add(lado.multiply(v));			
-		latitudeMin.setScale(10, RoundingMode.HALF_UP);
-		latitudeMax.setScale(10, RoundingMode.HALF_UP);
-		longitudeMin.setScale(10, RoundingMode.HALF_UP);
-		longitudeMax.setScale(10, RoundingMode.HALF_UP);
 	}
 
 	public Integer getVizinhos() {
@@ -105,21 +97,13 @@ public class Config {
 		Long a = (long) Math.sqrt(Math.pow(getTamanhoLateral(),2) + Math.pow(getTamanhoLateral(),2)); 
 		raio = a + (a*vizinhos*2);
 		BigDecimal tL = new BigDecimal(tamanhoLateral);
-		tL.setScale(10, RoundingMode.HALF_UP);
 		BigDecimal lado = tL.divide(FRACAO);
-		lado.setScale(10, RoundingMode.HALF_UP);
 		BigDecimal v = new BigDecimal(getVizinhos());
-		v.setScale(10, RoundingMode.HALF_UP);
 		BigDecimal dois = new BigDecimal(2l);
-		dois.setScale(10, RoundingMode.HALF_UP);
 		latitudeMin = getLatitude().subtract(lado.divide(dois)).subtract(lado.multiply(v));
 		latitudeMax = getLatitude().add(lado.divide(dois)).add(lado.multiply(v));
 		longitudeMin = getLongitude().subtract(lado.divide(dois)).subtract(lado.multiply(v)); 
 		longitudeMax = getLongitude().add(lado.divide(dois)).add(lado.multiply(v));
-		latitudeMin.setScale(10, RoundingMode.HALF_UP);
-		latitudeMax.setScale(10, RoundingMode.HALF_UP);
-		longitudeMin.setScale(10, RoundingMode.HALF_UP);
-		longitudeMax.setScale(10, RoundingMode.HALF_UP);
 	}
 
 	public Integer getMapas() {
@@ -136,7 +120,6 @@ public class Config {
 
 	public void setLatitude(BigDecimal latitude) {
 		this.latitude = latitude;
-		this.latitude.setScale(10, RoundingMode.HALF_UP);
 	}
 
 	public BigDecimal getLongitude() {
@@ -145,7 +128,6 @@ public class Config {
 
 	public void setLongitude(BigDecimal longitude) {
 		this.longitude = longitude;
-		this.longitude.setScale(10, RoundingMode.HALF_UP);
 	}
 
 	public Integer getDdd() {
@@ -170,6 +152,14 @@ public class Config {
 
 	public void setHeight(Integer height) {
 		this.height = height;
+	}
+
+	public Integer getMarcas() {
+		return marcas;
+	}
+
+	public void setMarcas(Integer marcas) {
+		this.marcas = marcas;
 	}
 
 	private void load() {
@@ -206,6 +196,7 @@ public class Config {
 		setMapas(Integer.parseInt(properties.getProperty("mapas")));
 		setWidth(Integer.parseInt(properties.getProperty("width")));
 		setHeight(Integer.parseInt(properties.getProperty("height")));
+		setMarcas(Integer.parseInt(properties.getProperty("marcas")));
 	}
 	
 	public void create() {

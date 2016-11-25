@@ -1,7 +1,6 @@
 package br.uff.ic.taxi;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 public class PreProcess {
@@ -10,16 +9,11 @@ public class PreProcess {
 		if (!org.getCelula().equals(dst.getCelula())) {
 			Config config = new Config();
 			BigDecimal tL = new BigDecimal(config.getTamanhoLateral());
-			tL.setScale(10, RoundingMode.HALF_UP);
 			BigDecimal lado = tL.divide(config.FRACAO);
-			lado.setScale(10, RoundingMode.HALF_UP);
 			BigDecimal v = new BigDecimal(config.getVizinhos());
-			v.setScale(10, RoundingMode.HALF_UP);
 
 			BigDecimal lat = config.getLatitude().subtract(v.multiply(lado));
-			lat.setScale(10, RoundingMode.HALF_UP);
 			BigDecimal lng = config.getLongitude().subtract(v.multiply(lado));
-			lng.setScale(10, RoundingMode.HALF_UP);
 			Integer linha = (config.getVizinhos()*2)+1;
 			Integer conta=1;
 			for (int i=1;i<org.getCelula();i++) {
@@ -34,9 +28,7 @@ public class PreProcess {
 			
 			// Define como centro o lat lng do ponto de origem
 			BigDecimal centroLat = lat;
-			centroLat.setScale(10, RoundingMode.HALF_UP);
 			BigDecimal centroLng = lng;
-			centroLng.setScale(10, RoundingMode.HALF_UP);
 
 			// Posiciona a seta na parte superior do quadrado
 			lat = lat.subtract(lado.divide(new BigDecimal(4*5)).multiply(new BigDecimal(3)));
@@ -61,7 +53,6 @@ public class PreProcess {
 			} else if (dst.getCelula().equals(org.getCelula()+linha-1)) {	// Acima e a esquerda 
 				grau = new BigDecimal(315);
 			}			
-			grau.setScale(10, RoundingMode.HALF_UP);
 
 			List<Point> listPonto = Arrow.getPoints(lado, lat, lng);
 			listPonto = Arrow.rotate(grau, listPonto, centroLat, centroLng);
@@ -73,16 +64,11 @@ public class PreProcess {
 	public static String circle(Count count) {
 		Config config = new Config();
 		BigDecimal tL = new BigDecimal(config.getTamanhoLateral());
-		tL.setScale(10, RoundingMode.HALF_UP);
 		BigDecimal lado = tL.divide(config.FRACAO);
-		lado.setScale(10, RoundingMode.HALF_UP);
 		BigDecimal v = new BigDecimal(config.getVizinhos());
-		v.setScale(10, RoundingMode.HALF_UP);
 
 		BigDecimal lat = config.getLatitude().subtract(v.multiply(lado));
-		lat.setScale(10, RoundingMode.HALF_UP);
 		BigDecimal lng = config.getLongitude().subtract(v.multiply(lado));
-		lng.setScale(10, RoundingMode.HALF_UP);
 		Integer linha = (config.getVizinhos()*2)+1;
 		Integer conta=1;
 		for (int i=1;i<count.getCelula();i++) {
@@ -94,7 +80,8 @@ public class PreProcess {
 				conta=1;
 			}
 		}
-		return JavaScript.drawCircle(count, lat, lng);
+		// return JavaScript.drawCircle(count, lat, lng);
+		return "";
 	}	
 
 }
