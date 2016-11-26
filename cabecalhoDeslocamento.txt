@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- jquery -->
+<script src="../../js/jquery.js"></script>
+
+<!-- leaflet -->
+<link rel="stylesheet" href="../../leaflet/leaflet.css">
+<script src="../../leaflet/leaflet.js"></script>
+
+<!-- easy-button -->
+<script src="../../js/easy-button.js"></script>
+
+<!-- leaflet route -->
+<link rel="stylesheet" href="../../routing/leaflet-routing-machine.css" />
+<script src="../../routing/leaflet-routing-machine.js"></script>
+
+<!-- bootstrap 
+<link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.css" />
+<script src="../../bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+-->
+<link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+<script src="../../bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+<!-- actions -->
+<script src="../../js/globalVariables.js"></script>
+<script src="map.js"></script>
+<script src="../../js/action.js"></script>
+
+<title>Mapas & Taxis</title>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Mapas & Taxis</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="../../index.html">Home</a></li>
+      <li><a href="../../densidade/map0/index.html">Densidade</a></li>
+      <li class="active"><a href="#">Deslocamento</a></li>
+    </ul>
+  </div>
+</nav>
+  
+<div class="container">

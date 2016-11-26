@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class JavaScript {
+	// TODO drawCircle
 	public static String drawCircle(String prefix, String color, double value, BigDecimal lat, BigDecimal lng) {
 		StringBuilder code = new StringBuilder();
 		code.append("\tvar circle = L.circle([");
@@ -28,14 +29,15 @@ public class JavaScript {
 		code.append("\t\t.openPopup();\n");
 		code.append("\tcircle");
 		code.append(prefix);
-		code.append(".push(circle);\n");
+		code.append(".matriz.push(circle);\n");
 		code.append("\tcircle");
 		code.append(prefix);
-		code.append("Group.addLayer(circle);\n");
+		code.append(".group.addLayer(circle);\n");
 		return code.toString();
 	}
 	
-	public static String drawMap(int i, Config config) {
+	// TODO drawMap
+	public static String drawMap(Config config) {
 		StringBuilder code = new StringBuilder();
 		code.append("function loadMap() {\n");
 		code.append("\tmap = L.map('map').setView([");
@@ -54,6 +56,7 @@ public class JavaScript {
 		return code.toString();
 	}
 
+	// TODO drawArrow
 	public static String drawArrow(Count dst, List<Point> listPonto) {
 		StringBuilder code = new StringBuilder();
 		code.append("\tvar polygon = L.polygon([\n");
@@ -103,39 +106,43 @@ public class JavaScript {
 		code.append(", ");
 		code.append(listPonto.get(7).getLongitude());
 		code.append("],\n");
-		code.append("\t], {color: 'green'}).addTo(map);\n");
-		code.append("\tarrow.push(polygon);\n");
-		code.append("\tarrowGroup.addLayer(polygon);\n");
+		code.append("\t], {color: 'green'});\n");
+		code.append("\tpolygon.addTo(map);\n");
+		code.append("\tarrow.matriz.push(polygon);\n");
+		code.append("\tarrow.group.addLayer(polygon);\n");
 		return code.toString();
 	}
 
-	public static String drawSrcTaxi(Integer map, Point taxi) {
-		StringBuilder code = new StringBuilder(); 
-		code.append(drawTaxi(map, taxi));
-		code.append("\tsrcTaxi.push(taxi);\n");
-		code.append("\tsrcTaxiGroup.addLayer(taxi);\n");
-		return code.toString();
-	}
-
-	public static String drawDstTaxi(Integer map, Point taxi) {
-		StringBuilder code = new StringBuilder(); 
-		code.append(drawTaxi(map, taxi));
-		code.append("\tdstTaxi.push(taxi);\n");
-		code.append("\tdstTaxiGroup.addLayer(taxi);\n");
-		return code.toString();
-	}
-
-	private static String drawTaxi(Integer map, Point taxi) {
+	// TODO drawSrcTaxi
+	public static String drawSrcTaxi(Point taxi) {
 		StringBuilder code = new StringBuilder(); 
 		code.append("\tvar taxi = L.marker([");
 		code.append(taxi.getLatitude());
 		code.append(", ");
 		code.append(taxi.getLongitude());
-		code.append("]).addTo(map);\n");
+		code.append("], {icon: srcIcon});\n");
+		code.append("\ttaxi.addTo(map);\n");
+		code.append("\tsrcTaxi.matriz.push(taxi);\n");
+		code.append("\tsrcTaxi.group.addLayer(taxi);\n");
 		return code.toString();
 	}
 
-	public static String drawSquare(Integer map, BigDecimal lat, BigDecimal lng, BigDecimal lado) {
+	// TODO drawDstTaxi
+	public static String drawDstTaxi(Point taxi) {
+		StringBuilder code = new StringBuilder(); 
+		code.append("\tvar taxi = L.marker([");
+		code.append(taxi.getLatitude());
+		code.append(", ");
+		code.append(taxi.getLongitude());
+		code.append("]);\n");
+		code.append("\ttaxi.addTo(map);\n");
+		code.append("\tdstTaxi.matriz.push(taxi);\n");
+		code.append("\tdstTaxi.group.addLayer(taxi);\n");
+		return code.toString();
+	}
+
+	// TODO drawSquare
+	public static String drawSquare(BigDecimal lat, BigDecimal lng, BigDecimal lado) {
 		StringBuilder code = new StringBuilder();
 		code.append("\tvar polygon = L.polygon([\n");
 		code.append("\t\t[");
@@ -158,13 +165,15 @@ public class JavaScript {
 		code.append(", ");
 		code.append(lng.add(lado));
 		code.append("]\n");
-		code.append("\t]).addTo(map);\n");
-		code.append("\tsquare.push(polygon);\n");
-		code.append("\tsquareGroup.addLayer(polygon);\n");
+		code.append("\t]);\n");
+		code.append("\tpolygon.addTo(map);\n");
+		code.append("\tsquare.matriz.push(polygon);\n");
+		code.append("\tsquare.group.addLayer(polygon);\n");
 		return code.toString();
 	}
 
-	public static String drawSquare(Integer map, BigDecimal lat, BigDecimal lng, BigDecimal lado, Integer total, Integer celula) {
+	// TODO drawSquare
+	public static String drawSquare(BigDecimal lat, BigDecimal lng, BigDecimal lado, Integer total, Integer celula) {
 		Integer r = (total * 200 / 50)+55;
 		String hex = String.format("#%02x%02x%02x", r, 0, 0);
 
@@ -194,9 +203,10 @@ public class JavaScript {
 		code.append("]\n");
 		code.append("\t], {color: '");
 		code.append(hex);
-		code.append("'}).addTo(map);\n");
-		code.append("\tsquare.push(polygon);\n");
-		code.append("\tsquareGroup.addLayer(polygon);\n");
+		code.append("'});\n");
+		code.append("\tpolygon.addTo(map);\n");
+		code.append("\tsquare.matriz.push(polygon);\n");
+		code.append("\tsquare.group.addLayer(polygon);\n");
 		return code.toString();
 	}
 

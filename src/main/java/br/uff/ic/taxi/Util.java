@@ -11,7 +11,8 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class Util {
-	public static void ShowDados(Count count, List<Count> listCount) {
+	// TODO showDados
+	public static void showDados(Count count, List<Count> listCount) {
 		System.out.println(String.format("Mapa %d Celula %d Total %d", count.getMapa(), count.getCelula(), count.getTotal()));
 		List<Integer> listCel = Search.listNeighbor(count.getCelula());		
 		for (Count c : listCount) {			
@@ -23,6 +24,7 @@ public class Util {
 		}		
 	}
 
+	// TODO readFile
 	public static String readFile(String path, Charset encoding) 
 			  throws IOException 
 	{
@@ -30,8 +32,11 @@ public class Util {
 	  return new String(encoded, encoding);
 	}
 		
-	public static void build(String name, Integer i, String cabecalho, String conteudo, String rodape) {
+	// TODO build
+	public static void build(String path, String name, Integer i, String cabecalho, String conteudo, String rodape) {
 		StringBuilder fileName = new StringBuilder();
+		fileName.append(path);
+		fileName.append("/");
 		fileName.append("map");
 		fileName.append(i);
 		File file = new File(fileName.toString());
@@ -51,6 +56,7 @@ public class Util {
 		printWriter.close();
 	}
 
+	// TODO setPonto
 	public static Point setPonto(Integer i, Count org, Count dst) {
 		BigDecimal y = dst.getLatitudeCentral().subtract(org.getLatitudeCentral());
 		BigDecimal x = dst.getLongitudeCentral().subtract(org.getLongitudeCentral());

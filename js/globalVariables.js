@@ -5,31 +5,22 @@ Objetivo/Manutenção: Separar variáveis globais
 Autor: Peron Rezende
 *******************************************************************************/
 
-	/* variables */
-	var map = null;
-	
-	var srcTaxi = [];
-	var srcTaxiGroup = null;
-	var dstTaxi = [];
-	var dstTaxiGroup = null;
-	var arrow = [];
-	var arrowGroup = null;
-	var square = [];
-	var squareGroup = null;
-	var circleUMax = [];
-	var circleUMaxGroup = null;
-	var circleUMin = [];
-	var circleUMinGroup = null;
-	var circleSMax = [];
-	var circleSMaxGroup = null;
-	var circleSMin = [];
-	var circleSMinGroup = null;
-	
-	var hideSrcMarkers = false;
-	var hideDstMarkers = false;
-	var hideArrowMarkers = false;
-	var hideSquareMarkers = false;
-	var hideCircleUMaxMarkers = false;
-	var hideCircleUMinMarkers = false;
-	var hideCircleSMaxMarkers = false;
-	var hideCircleSMinMarkers = false;
+var map = null;
+
+function create() {
+	var object = new Object();
+	object.matriz = [];
+	object.group = null;
+	object.hide = false;
+	object.button = null;
+	return object;
+}
+
+var srcTaxi = create();
+var dstTaxi = create();
+var arrow = create();
+var square = create();
+var circleUMax = create();
+var circleUMin = create();
+var circleSMax = create();
+var circleSMin = create();

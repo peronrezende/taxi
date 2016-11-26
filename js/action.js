@@ -6,210 +6,79 @@ Autor: Peron Rezende
 *******************************************************************************/
 
 /*******************************************************************************
-' Nome........: changeSrcTaxiState
+' Nome........: changeState
 ' Objetivo....: 
 ' 
-' Entrada.....: user (marker), demoState (False = original user state or True = 
-'               demo user state)
+' Entrada.....: draw, demoState (False = original draw state or True = 
+'               demo draw state)
 ' Observação..:
 ' Atualizações: [01]   Data: 27/06/2016 13:10   Autor: Paulo Mann
 *******************************************************************************/
 
-function changeSrcTaxiState(taxi, demoState)
+function changeState(draw, demoState, hideDraw)
 {
-	if(hideSrcMarkers)
+	if(hideDraw)
 	{
 		if(demoState)
-			map.removeLayer(taxi);
+			map.removeLayer(draw);
 		else
-			map.addLayer(taxi);
+			map.addLayer(draw);
 	}
 }
 
 /*******************************************************************************
-' Nome........: changeDstTaxiState
+' Nome........: hide
 ' Objetivo....: 
 ' 
-' Entrada.....: user (marker), demoState (False = original user state or True = 
-'               demo user state)
+' Entrada.....: managerDraw
 ' Observação..:
 ' Atualizações: [01]   Data: 27/06/2016 13:10   Autor: Paulo Mann
 *******************************************************************************/
 
-function changeDstTaxiState(taxi, demoState)
+function hide(managerDraw)
 {
-	if(hideDstMarkers)
+	if(!managerDraw.hide)
 	{
-		if(demoState)
-			map.removeLayer(taxi);
-		else
-			map.addLayer(taxi);
-	}
-}
-
-/*******************************************************************************
-' Nome........: changeArrowState
-' Objetivo....: 
-' 
-' Entrada.....: user (marker), demoState (False = original user state or True = 
-'               demo user state)
-' Observação..:
-' Atualizações: [01]   Data: 27/06/2016 13:10   Autor: Paulo Mann
-*******************************************************************************/
-
-function changeArrowState(arrow, demoState)
-{
-	if(hideArrowMarkers)
-	{
-		if(demoState)
-			map.removeLayer(arrow);
-		else
-			map.addLayer(arrow);
-	}
-}
-
-/*******************************************************************************
-' Nome........: changeSquareState
-' Objetivo....: 
-' 
-' Entrada.....: user (marker), demoState (False = original user state or True = 
-'               demo user state)
-' Observação..:
-' Atualizações: [01]   Data: 27/06/2016 13:10   Autor: Paulo Mann
-*******************************************************************************/
-
-function changeSquareState(square, demoState)
-{
-	if(hideSquareMarkers)
-	{
-		if(demoState)
-			map.removeLayer(square);
-		else
-			map.addLayer(square);
-	}
-}
-
-/*******************************************************************************
-' Nome........: changeCircleUMaxState
-' Objetivo....: 
-' 
-' Entrada.....: user (marker), demoState (False = original user state or True = 
-'               demo user state)
-' Observação..:
-' Atualizações: [01]   Data: 27/06/2016 13:10   Autor: Paulo Mann
-*******************************************************************************/
-
-function changeCircleUMaxState(circleUMax, demoState)
-{
-	if(hideCircleUMaxMarkers)
-	{
-		if(demoState)
-			map.removeLayer(circleUMax);
-		else
-			map.addLayer(circleUMax);
-	}
-}
-
-/*******************************************************************************
-' Nome........: changeCircleUMinState
-' Objetivo....: 
-' 
-' Entrada.....: user (marker), demoState (False = original user state or True = 
-'               demo user state)
-' Observação..:
-' Atualizações: [01]   Data: 27/06/2016 13:10   Autor: Paulo Mann
-*******************************************************************************/
-
-function changeCircleUMinState(circleUMin, demoState)
-{
-	if(hideCircleUMinMarkers)
-	{
-		if(demoState)
-			map.removeLayer(circleUMin);
-		else
-			map.addLayer(circleUMin);
-	}
-}
-
-/*******************************************************************************
-' Nome........: changeCircleSMaxState
-' Objetivo....: 
-' 
-' Entrada.....: user (marker), demoState (False = original user state or True = 
-'               demo user state)
-' Observação..:
-' Atualizações: [01]   Data: 27/06/2016 13:10   Autor: Paulo Mann
-*******************************************************************************/
-
-function changeCircleSMaxState(circleSMax, demoState)
-{
-	if(hideCircleSMaxMarkers)
-	{
-		if(demoState)
-			map.removeLayer(circleSMax);
-		else
-			map.addLayer(circleSMax);
-	}
-}
-
-/*******************************************************************************
-' Nome........: changeCircleSMinState
-' Objetivo....: 
-' 
-' Entrada.....: user (marker), demoState (False = original user state or True = 
-'               demo user state)
-' Observação..:
-' Atualizações: [01]   Data: 27/06/2016 13:10   Autor: Paulo Mann
-*******************************************************************************/
-
-function changeCircleSMinState(circleSMin, demoState)
-{
-	if(hideCircleSMinMarkers)
-	{
-		if(demoState)
-			map.removeLayer(circleSMin);
-		else
-			map.addLayer(circleSMin);
-	}
-}
-
-/*******************************************************************************
-' Nome........: hideSrcTaxis
-' Objetivo....: 
-' 
-' Entrada.....: 
-' Observação..:
-' Atualizações: [01]   Data: 27/06/2016 13:10   Autor: Paulo Mann
-*******************************************************************************/
-
-function hideSrcTaxis()
-{
-	if(!hideSrcMarkers)
-	{
-		hideSrcMarkers = true;
-		srcTaxiGroup.eachLayer(function (layer) 
+		managerDraw.hide = true;
+		managerDraw.group.eachLayer(function (layer) 
 		{
-			changeSrcTaxiState(layer, true);
+			changeState(layer, true, managerDraw.hide);
 		});
 	}
 	else
 	{
-		srcTaxiGroup.eachLayer(function (layer)
+		managerDraw.group.eachLayer(function (layer)
 		{
-			changeSrcTaxiState(layer, false);
+			changeState(layer, false, managerDraw.hide);
 		});
-		hideSrcMarkers = false;
+		managerDraw.hide = false;
 	}
+	return managerDraw;
 }
 
-var hideSrcTaxisButton = L.easyButton({
+/*******************************************************************************
+' Ajuste de variaveis globais
+*******************************************************************************/
+
+var srcIcon = L.icon({
+    iconUrl: '../../leaflet/images/marker-icon-src.png',
+    shadowUrl: '../../leaflet/images/marker-shadow.png',
+
+    iconSize:     [25, 41], // size of the icon
+    shadowSize:   [41, 41], // size of the shadow
+    iconAnchor:   [12, 40], // point of the icon which will correspond to marker's location
+    shadowAnchor: [12, 40],  // the same for the shadow
+    popupAnchor:  [12, 12]  // point from which the popup should open relative to the iconAnchor
+});
+
+srcTaxi.button = L.easyButton({
 	states: [{
 		stateName: 'hide-src-taxis',   // name the state
 		icon:      'glyphicon glyphicon-star-empty',          // and define its properties
 		title:     'Hide src taxis demo', // like its title
 		onClick: function(control) 
 		{  
-			hideSrcTaxis();
+			srcTaxi = hide(srcTaxi);
 			control.state('show-src-taxis');
 		}
 	}, {
@@ -218,49 +87,20 @@ var hideSrcTaxisButton = L.easyButton({
 		title:     'Hide src taxis demo',
 		onClick: function(control) 
 		{
-			hideSrcTaxis();
+			srcTaxi = hide(srcTaxi);
 			control.state('hide-src-taxis');
 		}
 	}]
 });
 
-/*******************************************************************************
-' Nome........: hideDstTaxis
-' Objetivo....: 
-' 
-' Entrada.....: 
-' Observação..:
-' Atualizações: [01]   Data: 27/06/2016 13:10   Autor: Paulo Mann
-*******************************************************************************/
-
-function hideDstTaxis()
-{
-	if(!hideDstMarkers)
-	{
-		hideDstMarkers = true;
-		dstTaxiGroup.eachLayer(function (layer) 
-		{
-			changeDstTaxiState(layer, true);
-		});
-	}
-	else
-	{
-		dstTaxiGroup.eachLayer(function (layer)
-		{
-			changeDstTaxiState(layer, false);
-		});
-		hideDstMarkers = false;
-	}
-}
-
-var hideDstTaxisButton = L.easyButton({
+dstTaxi.button = L.easyButton({
 	states: [{
 		stateName: 'hide-dst-taxis',   // name the state
 		icon:      'glyphicon glyphicon-star',          // and define its properties
 		title:     'Hide dst taxis demo', // like its title
 		onClick: function(control) 
 		{  
-			hideDstTaxis();
+			dstTaxi = hide(dstTaxi);
 			control.state('show-dst-taxis');
 		}
 	}, {
@@ -269,49 +109,20 @@ var hideDstTaxisButton = L.easyButton({
 		title:     'Hide dst taxis demo',
 		onClick: function(control) 
 		{
-			hideDstTaxis();
+			dstTaxi = hide(dstTaxi);
 			control.state('hide-dst-taxis');
 		}
 	}]
 });
 
-/*******************************************************************************
-' Nome........: hideArrows
-' Objetivo....: 
-' 
-' Entrada.....: 
-' Observação..:
-' Atualizações: [01]   Data: 27/06/2016 13:10   Autor: Paulo Mann
-*******************************************************************************/
-
-function hideArrows()
-{
-	if(!hideArrowMarkers)
-	{
-		hideArrowMarkers = true;
-		arrowGroup.eachLayer(function (layer) 
-		{
-			changeArrowState(layer, true);
-		});
-	}
-	else
-	{
-		arrowGroup.eachLayer(function (layer)
-		{
-			changeArrowState(layer, false);
-		});
-		hideArrowMarkers = false;
-	}
-}
-
-var hideArrowsButton = L.easyButton({
+arrow.button = L.easyButton({
 	states: [{
 		stateName: 'hide-arrows',   // name the state
 		icon:      'glyphicon glyphicon-arrow-up',          // and define its properties
 		title:     'Hide arrows demo', // like its title
 		onClick: function(control) 
 		{  
-			hideArrows();
+			arrow = hide(arrow);
 			control.state('show-arrows');
 		}
 	}, {
@@ -320,49 +131,20 @@ var hideArrowsButton = L.easyButton({
 		title:     'Hide arrows demo',
 		onClick: function(control) 
 		{
-			hideArrows();
+			arrow = hide(arrow);
 			control.state('hide-arrows');
 		}
 	}]
 });
 
-/*******************************************************************************
-' Nome........: hideSquares
-' Objetivo....: 
-' 
-' Entrada.....: 
-' Observação..:
-' Atualizações: [01]   Data: 27/06/2016 13:10   Autor: Paulo Mann
-*******************************************************************************/
-
-function hideSquares()
-{
-	if(!hideSquareMarkers)
-	{
-		hideSquareMarkers = true;
-		squareGroup.eachLayer(function (layer) 
-		{
-			changeSquareState(layer, true);
-		});
-	}
-	else
-	{
-		squareGroup.eachLayer(function (layer)
-		{
-			changeSquareState(layer, false);
-		});
-		hideSquareMarkers = false;
-	}
-}
-
-var hideSquaresButton = L.easyButton({
+square.button = L.easyButton({
 	states: [{
 		stateName: 'hide-squares',   // name the state
 		icon:      'glyphicon glyphicon-th-large',          // and define its properties
 		title:     'Hide squares demo', // like its title
 		onClick: function(control) 
 		{  
-			hideSquares();
+			square = hide(square);
 			control.state('show-squares');
 		}
 	}, {
@@ -371,212 +153,95 @@ var hideSquaresButton = L.easyButton({
 		title:     'Hide squares demo',
 		onClick: function(control) 
 		{
-			hideSquares();
+			square = hide(square);
 			control.state('hide-squares');
 		}
 	}]
 });
 
-/*******************************************************************************
-' Nome........: hideCircleUMax
-' Objetivo....: 
-' 
-' Entrada.....: 
-' Observação..:
-' Atualizações: [01]   Data: 27/06/2016 13:10   Autor: Paulo Mann
-*******************************************************************************/
-
-function hideCircleUMax()
-{
-	if(!hideCircleUMaxMarkers)
-	{
-		hideCircleUMaxMarkers = true;
-		circleUMaxGroup.eachLayer(function (layer) 
-		{
-			changeCircleUMaxState(layer, true);
-		});
-	}
-	else
-	{
-		circleUMaxGroup.eachLayer(function (layer)
-		{
-			changeCircleUMaxState(layer, false);
-		});
-		hideCircleUMaxMarkers = false;
-	}
-}
-
-var hideCircleUMaxButton = L.easyButton({
+circleUMax.button = L.easyButton({
 	states: [{
 		stateName: 'hide-circle-u-max',   // name the state
-		icon:      'glyphicon glyphicon-th-large',          // and define its properties
+		icon:      'glyphicon glyphicon-adjust',          // and define its properties
 		title:     'Hide circle u max demo', // like its title
 		onClick: function(control) 
 		{  
-			hideCircleUMax();
+			circleUMax = hide(circleUMax);
 			control.state('show-circle-u-max');
 		}
 	}, {
 		stateName: 'show-circle-u-max',
-		icon:      'glyphicon glyphicon-th-large',
+		icon:      'glyphicon glyphicon-adjust',
 		title:     'Hide circle u max demo',
 		onClick: function(control) 
 		{
-			hideCircleUMax();
+			circleUMax = hide(circleUMax);
 			control.state('hide-circle-u-max');
 		}
 	}]
 });
 
-/*******************************************************************************
-' Nome........: hideCircleUMin
-' Objetivo....: 
-' 
-' Entrada.....: 
-' Observação..:
-' Atualizações: [01]   Data: 27/06/2016 13:10   Autor: Paulo Mann
-*******************************************************************************/
-
-function hideCircleUMin()
-{
-	if(!hideCircleUMinMarkers)
-	{
-		hideCircleUMinMarkers = true;
-		circleUMinGroup.eachLayer(function (layer) 
-		{
-			changeCircleUMinState(layer, true);
-		});
-	}
-	else
-	{
-		circleUMinGroup.eachLayer(function (layer)
-		{
-			changeCircleUMinState(layer, false);
-		});
-		hideCircleUMinMarkers = false;
-	}
-}
-
-var hideCircleUMinButton = L.easyButton({
+circleUMin.button = L.easyButton({
 	states: [{
 		stateName: 'hide-circle-u-min',   // name the state
-		icon:      'glyphicon glyphicon-th-large',          // and define its properties
+		icon:      'glyphicon glyphicon-adjust',          // and define its properties
 		title:     'Hide circle u min demo', // like its title
 		onClick: function(control) 
 		{  
-			hideCircleUMin();
+			circleUMin = hide(circleUMin);
 			control.state('show-circle-u-min');
 		}
 	}, {
 		stateName: 'show-circle-u-min',
-		icon:      'glyphicon glyphicon-th-large',
+		icon:      'glyphicon glyphicon-adjust',
 		title:     'Hide circle u min demo',
 		onClick: function(control) 
 		{
-			hideCircleUMax();
+			circleUMin = hide(circleUMin);
 			control.state('hide-circle-u-min');
 		}
 	}]
 });
 
-
-/*******************************************************************************
-' Nome........: hideCircleSMax
-' Objetivo....: 
-' 
-' Entrada.....: 
-' Observação..:
-' Atualizações: [01]   Data: 27/06/2016 13:10   Autor: Paulo Mann
-*******************************************************************************/
-
-function hideCircleSMax()
-{
-	if(!hideCircleSMaxMarkers)
-	{
-		hideCircleSMaxMarkers = true;
-		circleSMaxGroup.eachLayer(function (layer) 
-		{
-			changeCircleSMaxState(layer, true);
-		});
-	}
-	else
-	{
-		circleSMaxGroup.eachLayer(function (layer)
-		{
-			changeCircleSMaxState(layer, false);
-		});
-		hideCircleSMaxMarkers = false;
-	}
-}
-
-var hideCircleSMaxButton = L.easyButton({
+circleSMax.button = L.easyButton({
 	states: [{
 		stateName: 'hide-circle-s-max',   // name the state
-		icon:      'glyphicon glyphicon-th-large',          // and define its properties
+		icon:      'glyphicon glyphicon-adjust',          // and define its properties
 		title:     'Hide circle s max demo', // like its title
 		onClick: function(control) 
 		{  
-			hideCircleSMax();
+			circleSMax = hide(circleSMax);
 			control.state('show-circle-s-max');
 		}
 	}, {
 		stateName: 'show-circle-s-max',
-		icon:      'glyphicon glyphicon-th-large',
+		icon:      'glyphicon glyphicon-adjust',
 		title:     'Hide circle s max demo',
 		onClick: function(control) 
 		{
-			hideCircleSMax();
+			circleSMax = hide(circleSMax);
 			control.state('hide-circle-s-max');
 		}
 	}]
 });
 
-/*******************************************************************************
-' Nome........: hideCircleSMin
-' Objetivo....: 
-' 
-' Entrada.....: 
-' Observação..:
-' Atualizações: [01]   Data: 27/06/2016 13:10   Autor: Paulo Mann
-*******************************************************************************/
-
-function hideCircleSMin()
-{
-	if(!hideCircleSMinMarkers)
-	{
-		hideCircleSMinMarkers = true;
-		circleSMinGroup.eachLayer(function (layer) 
-		{
-			changeCircleSMinState(layer, true);
-		});
-	}
-	else
-	{
-		circleSMinGroup.eachLayer(function (layer)
-		{
-			changeCircleSMinState(layer, false);
-		});
-		hideCircleSMinMarkers = false;
-	}
-}
-
-var hideCircleSMinButton = L.easyButton({
+circleSMin.button = L.easyButton({
 	states: [{
 		stateName: 'hide-circle-s-min',   // name the state
-		icon:      'glyphicon glyphicon-th-large',          // and define its properties
+		icon:      'glyphicon glyphicon-adjust',          // and define its properties
 		title:     'Hide circle s min demo', // like its title
 		onClick: function(control) 
 		{  
-			hideCircleSMin();
+			circleSMin = hide(circleSMin);
 			control.state('show-circle-s-min');
 		}
 	}, {
 		stateName: 'show-circle-s-min',
-		icon:      'glyphicon glyphicon-th-large',
+		icon:      'glyphicon glyphicon-adjust',
 		title:     'Hide circle s min demo',
 		onClick: function(control) 
 		{
-			hideCircleSMax();
+			circleSMin = hide(circleSMin);
 			control.state('hide-circle-s-min');
 		}
 	}]
@@ -593,22 +258,22 @@ var hideCircleSMinButton = L.easyButton({
 
 function setupButtons()
 {
-	hideSrcTaxisButton.setPosition('bottomright');
-	hideSrcTaxisButton.addTo(map);
-	hideDstTaxisButton.setPosition('bottomright');
-	hideDstTaxisButton.addTo(map);
-	hideArrowsButton.setPosition('bottomright');
-	hideArrowsButton.addTo(map);
-	hideSquaresButton.setPosition('bottomright');
-	hideSquaresButton.addTo(map);
-	hideCircleUMaxButton.setPosition('bottomright');
-	hideCircleUMaxButton.addTo(map);
-	hideCircleUMinButton.setPosition('bottomright');
-	hideCircleUMinButton.addTo(map);
-	hideCircleSMaxButton.setPosition('bottomright');
-	hideCircleSMaxButton.addTo(map);
-	hideCircleSMinButton.setPosition('bottomright');
-	hideCircleSMinButton.addTo(map);
+	srcTaxi.button.setPosition('bottomright');
+	srcTaxi.button.addTo(map);
+	dstTaxi.button.setPosition('bottomright');
+	dstTaxi.button.addTo(map);
+	arrow.button.setPosition('bottomright');
+	arrow.button.addTo(map);
+	square.button.setPosition('bottomright');
+	square.button.addTo(map);
+	circleUMax.button.setPosition('bottomright');
+	circleUMax.button.addTo(map);
+	circleUMin.button.setPosition('bottomright');
+	circleUMin.button.addTo(map);
+	circleSMax.button.setPosition('bottomright');
+	circleSMax.button.addTo(map);
+	circleSMin.button.setPosition('bottomright');
+	circleSMin.button.addTo(map);
 }
 
 /*******************************************************************************
@@ -621,14 +286,14 @@ function setupButtons()
 *******************************************************************************/
 
 function actionInit() {
-	srcTaxiGroup = L.layerGroup();
-	dstTaxiGroup = L.layerGroup();
-	arrowGroup = L.layerGroup();
-	squareGroup = L.layerGroup();
-	circleUMaxGroup = L.layerGroup();
-	circleUMinGroup = L.layerGroup();
-	circleSMaxGroup = L.layerGroup();
-	circleSMinGroup = L.layerGroup();
+	srcTaxi.group = L.layerGroup();
+	dstTaxi.group = L.layerGroup();
+	arrow.group = L.layerGroup();
+	square.group = L.layerGroup();
+	circleUMax.group = L.layerGroup();
+	circleUMin.group = L.layerGroup();
+	circleSMax.group = L.layerGroup();
+	circleSMin.group = L.layerGroup();
 
 	loadMap();
 		

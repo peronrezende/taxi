@@ -26,27 +26,40 @@ import org.apache.commons.math3.linear.RealVector;
 public class App 
 {
 	private static Config config = new Config();
-
+	private static List<Count> oldListCount = null;
+	
+	// TODO main
 	public static void main( String[] args )
     {
 		Database database = new Database();
+		int oldI = -1;
+		Timestamp oldStart = null;
+		Timestamp oldEnd = null;
+		List<Point> oldListTaxi = null;
 		for (int i=0; i<config.getMapas(); i++) {
 			try {
 				List<Point> listTaxi = database.getListTaxi(i, config);
-				buildIndexHtml(i, database.getStart(), database.getEnd());
-				buildMapJS(i, listTaxi);				
+				buildIndexHtml(i, database.getStart(), database.getEnd(), oldI, oldStart, oldEnd);				
+				buildMapJS(i, listTaxi, oldI, oldListTaxi);				
+				oldI = i;
+				oldStart = database.getStart();
+				oldEnd = database.getEnd();
+				oldListTaxi = listTaxi;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		database.close();			
 	}
 	
-	private static void buildMapJS(Integer i, List<Point> listTaxi) {
+	// TODO buildMapJS
+	private static void buildMapJS(Integer i, List<Point> listTaxi, Integer oldI, List<Point> oldListTaxi) {
 		List<Count> listCount = new ArrayList<Count>();
 		
-		String map = JavaScript.drawMap(i, config); 						
+		/*
+		 * Desenha o mapa (trecho comum aos dois mapas)
+		 */
+		String map = JavaScript.drawMap(config); 						
 
 		StringBuilder quadrados = new StringBuilder();
 		quadrados.append("function loadSquare() {\n");
@@ -58,7 +71,7 @@ public class App
 			BigDecimal lng = config.getLongitudeMin();
 			while (lng.compareTo(config.getLongitudeMax())<0) {												
 				/*
-				 * Conta quantos Taxis tem dentro do quadrado
+				 * Conta quantos Taxis tem dentro do quadrado (trecho comum aos dois mapas)
 				 */
 				Integer total = 0;
 				for (Point taxi : listTaxi) {
@@ -67,9 +80,12 @@ public class App
 						total++;
 					}
 				}
+				/*
+				 * Desenha os quadrados (trecho comum aos dois mapas)
+				 */
 				listCount.add(new Count(i, celula, total, lat, lng, lado));
 				if (total>0) {							
-					quadrados.append(JavaScript.drawSquare(i, lat, lng, lado, total, celula));
+					quadrados.append(JavaScript.drawSquare(lat, lng, lado, total, celula));
 				}
 				lng=lng.add(lado);
 				celula++;
@@ -79,64 +95,136 @@ public class App
 		quadrados.append("}\n\n");
 		
 		/*
-		 * Desenha cada taxi
+		 * Desenha cada taxi (mapa de densidade)
 		 */
-		StringBuilder taxis = new StringBuilder();
-		taxis.append("function loadTaxi() {\n");
+		StringBuilder taxisDst = new StringBuilder();
+		taxisDst.append("function loadTaxi() {\n");
 		for (Point taxi : listTaxi) {
-			taxis.append(JavaScript.drawSrcTaxi(i, taxi));
+			taxisDst.append(JavaScript.drawDstTaxi(taxi));
 		}
-		taxis.append("}\n\n");				
+		taxisDst.append("}\n\n");				
 
 		/*
-		 * Desenha as setas 
+		 * Desenha cada taxi (mapa de deslocamento)
+		 */		
+		StringBuilder taxisSrcDst = new StringBuilder();
+		taxisSrcDst.append("function loadTaxi() {\n");
+		if (oldI > -1) { // Se existe mapa anterior (não ocorre no Mapa 0)
+			for (Point taxi : oldListTaxi) {
+				taxisSrcDst.append(JavaScript.drawSrcTaxi(taxi));
+			}
+		}
+		for (Point taxi : listTaxi) {
+			taxisSrcDst.append(JavaScript.drawDstTaxi(taxi));
+		}
+		taxisSrcDst.append("}\n\n");				
+
+		/*
+		 * Desenha as setas (mapa de densidade)
 		 */
 		List<Point> listPonto = new ArrayList<Point>();
 		int c = 0;
-		StringBuilder setas = new StringBuilder();
-		setas.append("function loadArrow() {\n");
+		StringBuilder setasDst = new StringBuilder();
+		setasDst.append("function loadArrow() {\n");
 		for (Count org : listCount) {
 			// Util.ShowDados(org, listCount);
 			Count dst = Search.maxNeighbor(i, org, listCount);
 			if (org.getTotal()>0) {
-				setas.append(PreProcess.arrow(org, dst));
+				setasDst.append(PreProcess.arrow(org, dst));
 			}
 			listPonto.add(Util.setPonto(c, org, dst));
 			c++;
 		}
-		setas.append("}\n\n");
+		setasDst.append("}\n\n");
 		
 		// printList("Lista escalar do mapa "i, listPonto);
-		
-		StringBuilder conteudo = new StringBuilder();
-		conteudo.append(map.toString());
-		conteudo.append(quadrados.toString());
-		conteudo.append(taxis.toString());
-		conteudo.append(setas.toString());
-		
+				
 		Point[][] v = matriz(listPonto);
-		print("Matriz escalar do mapa ", i, v);
+		print("Mapa densidade: Matriz escalar do ", i, v);
 		
 		double[][] u = mdfU(i, listPonto.size(), v);
 		int t = config.getVizinhos().intValue()*2+1;
-		print("Matriz u de ", i, u, t);
+		print("Mapa densidade: Matriz u de ", i, u, t);
 		
 		/*
-		 * Desenha os circulos 
+		 * Desenha os circulos (mapa de densidade)
 		 */
 
-		StringBuilder circulos = new StringBuilder();
+		StringBuilder circulosDst = new StringBuilder();
 		
 		double[][] s = mdfS(i, listPonto.size(), v);
 		print("Matriz s de ", i, s, t);
 		System.out.println("\n");
 		
-		circulos.append(setUS(u, s, v));
+		circulosDst.append(setUS(u, s, v));
 		
-		conteudo.append(circulos.toString());
-		Util.build("map.js", i, "", conteudo.toString(), "");		
+		/*
+		 * Desenha as setas (mapa de deslocamento)
+		 */
+		StringBuilder setasSrcDst = new StringBuilder();
+		StringBuilder circulosSrcDst = new StringBuilder();
+		if (oldI > -1) { // Se existir mapa anterior (não ocorre no Mapa 0)
+			listPonto = new ArrayList<Point>();
+			c = 0;
+			setasSrcDst.append("function loadArrow() {\n");
+			for (Count org : oldListCount) {
+				// Util.ShowDados(org, listCount);
+				Count dst = Search.maxNeighbor(i, org, listCount);
+				if (org.getTotal()>0) {
+					setasSrcDst.append(PreProcess.arrow(org, dst));
+				}
+				listPonto.add(Util.setPonto(c, org, dst));
+				c++;
+			}
+			setasSrcDst.append("}\n\n");
+			
+			// printList("Lista escalar do mapa "i, listPonto);
+			
+			v = matriz(listPonto);
+			print("Mapa deslocamento: Matriz escalar do mapa ", i, v);
+			
+			u = mdfU(i, listPonto.size(), v);
+			t = config.getVizinhos().intValue()*2+1;
+			print("Mapa deslocamento: Matriz u de ", i, u, t);
+			
+			/*
+			 * Desenha os circulos (mapa de deslocamento)
+			 */
+	
+			s = mdfS(i, listPonto.size(), v);
+			print("Mapa deslocamento: Matriz s de ", i, s, t);
+			System.out.println("\n");
+			
+			circulosSrcDst.append(setUS(u, s, v));
+		} else {
+			setasSrcDst.append("function loadArrow() {\n");
+			setasSrcDst.append("\t// Não tem mapa anterior, não há o que fazer aqui.\n");
+			setasSrcDst.append("}\n\n");
+			circulosSrcDst.append("function loadCircle() {\n");
+			circulosSrcDst.append("\t// Não tem mapa anterior, não há o que fazer aqui.\n");
+			circulosSrcDst.append("}\n\n");
+		}
+		
+		StringBuilder conteudo = new StringBuilder();
+		conteudo.append(map.toString());
+		conteudo.append(quadrados.toString());
+		conteudo.append(taxisDst.toString());
+		conteudo.append(setasDst.toString());
+		conteudo.append(circulosDst.toString());
+		Util.build("densidade", "map.js", i, "", conteudo.toString(), "");
+		
+		conteudo = new StringBuilder();
+		conteudo.append(map.toString());
+		conteudo.append(quadrados.toString());
+		conteudo.append(taxisSrcDst.toString());
+		conteudo.append(setasSrcDst.toString());
+		conteudo.append(circulosSrcDst.toString());
+		Util.build("deslocamento", "map.js", i, "", conteudo.toString(), "");
+
+		oldListCount = listCount;
 	}
 
+	// TODO setUS
 	private static String setUS(double[][] u, double[][] s, Point[][] v) {
 		int o = config.getVizinhos()*2+1;		
 		List<Point> listPoint = new ArrayList<Point>();
@@ -192,19 +280,11 @@ public class App
 		return code.toString();
 	}
 
-	private static void buildIndexHtml(Integer i, Timestamp start, Timestamp end) {	
+	// TODO buildIndexHtml
+	private static void buildIndexHtml(Integer i, Timestamp start, Timestamp end, Integer oldI, Timestamp oldStart, Timestamp oldEnd) {	
 		try {
-			StringBuilder title = new StringBuilder();
-			title.append("<br><br><p>Mapa ");
-			title.append(i);
-			title.append(" : ");
-			title.append(start);
-			title.append(" .. ");
-			title.append(end);
-			title.append("</p>\n");
-			
 			StringBuilder pagination = new StringBuilder();
-			pagination.append("<ul class=\"pagination\">\n");
+			pagination.append("\t<ul class=\"pagination\">\n");
 			for (int j=0; j<config.getMapas(); j++) {
 				if (i==j) {
 					pagination.append("\t<li class=\"active\"><a href=\"../map");
@@ -218,127 +298,64 @@ public class App
 				pagination.append(j);
 				pagination.append("</a></li>\n");	
 			}
-			pagination.append("</ul>\n");			
-	
+			pagination.append("</ul>\n\n");			
+			
+			StringBuilder titleDst = new StringBuilder();			
+			titleDst.append("\t<p>Mapa ");
+			titleDst.append(i);
+			titleDst.append(" : ");
+			titleDst.append(start);
+			titleDst.append(" .. ");
+			titleDst.append(end);
+			titleDst.append("</p>\n");
+			
 			StringBuilder map = new StringBuilder();
-			map.append("<div id=\"map\" style=\"width: ");
+			map.append("\t<div id=\"map\" style=\"width: ");
 			map.append(config.getWidth());
 			map.append("px; height: ");
 			map.append(config.getHeight());
 			map.append("px; position: relative;\"></div>\n");
 			
+			StringBuilder titleSrcDst = new StringBuilder();
+			titleSrcDst.append("\t<p>Mapa ");
+			
+			titleSrcDst.append(i);
+			titleSrcDst.append(" : ");
+			titleSrcDst.append(start);
+			titleSrcDst.append(" .. ");
+			titleSrcDst.append(end);
+			
+			if (oldI > -1) {
+				titleSrcDst.append(" + Mapa ");
+				titleSrcDst.append(oldI);
+				titleSrcDst.append(" : ");
+				titleSrcDst.append(oldStart);
+				titleSrcDst.append(" .. ");
+				titleSrcDst.append(oldEnd);
+			}
+			
+			titleSrcDst.append("</p>\n");
+			
+			String cabecalho = Util.readFile("cabecalhoDensidade.txt", Charset.defaultCharset());
 			StringBuilder conteudo = new StringBuilder();
-			conteudo.append(title.toString());
-			conteudo.append(pagination.toString());
+			conteudo.append(pagination.toString());			
+			conteudo.append(titleDst.toString());
+			conteudo.append(map.toString());			
+			String rodape = Util.readFile("rodape.txt", Charset.defaultCharset());			
+			Util.build("densidade", "index.html", i, cabecalho, conteudo.toString(), rodape);
+			
+			cabecalho = Util.readFile("cabecalhoDeslocamento.txt", Charset.defaultCharset());			
+			conteudo = new StringBuilder();
+			conteudo.append(pagination.toString());			
+			conteudo.append(titleSrcDst.toString());
 			conteudo.append(map.toString());
-			
-			String cabecalho = Util.readFile("cabecalho.txt", Charset.defaultCharset());
-			String rodape = Util.readFile("rodape.txt", Charset.defaultCharset());
-			
-			Util.build("index.html", i, cabecalho, conteudo.toString(), rodape);
+			Util.build("deslocamento", "index.html", i, cabecalho, conteudo.toString(), rodape);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public static void uuu()
-    {
-		try {
-			Database database = new Database();
-			StringBuilder setas = new StringBuilder();
-			StringBuilder conteudo = new StringBuilder();
-			for (int i=0; i<config.getMapas(); i++) {
-				List<Count> listCount = new ArrayList<Count>();
-				List<Point> listTaxi = database.getListTaxi(i, config);
-				String map = JavaScript.drawMap(i, config); 						
-
-				StringBuilder quadrados = new StringBuilder();
-				BigDecimal tL = new BigDecimal(config.getTamanhoLateral());
-				BigDecimal lado = tL.divide(config.FRACAO);
-				BigDecimal lat = config.getLatitudeMin();
-				Integer celula = 1;
-				while (lat.compareTo(config.getLatitudeMax())<0) {
-					BigDecimal lng = config.getLongitudeMin();
-					while (lng.compareTo(config.getLongitudeMax())<0) {												
-						/*
-						 * Conta quantos Taxis tem dentro do quadrado
-						 */
-						Integer total = 0;
-						for (Point taxi : listTaxi) {
-							if ((taxi.getLatitude().compareTo(lat)>=0 && taxi.getLatitude().compareTo(lat.add(lado))<=0) &&
-									(taxi.getLongitude().compareTo(lng)>=0 && taxi.getLongitude().compareTo(lng.add(lado))<=0)) {
-								total++;
-							}
-						}
-						listCount.add(new Count(i, celula, total, lat, lng, lado));
-						if (total>0) {							
-							quadrados.append(JavaScript.drawSquare(i, lat, lng, lado, total, celula));
-						}
-						lng=lng.add(lado);
-						celula++;
-					}
-					lat=lat.add(lado);
-				}
-				
-				/*
-				 * Desenha cada taxi
-				 */
-				StringBuilder taxis = new StringBuilder();
-				for (Point taxi : listTaxi) {
-					taxis.append(JavaScript.drawSrcTaxi(i, taxi));
-				}
-				taxis.append("</script>\n\n");				
-
-				/*
-				 * Desenha as setas 
-				 */
-				List<Point> listPonto = new ArrayList<Point>();
-				int c = 0;
-				for (Count org : listCount) {
-					// Util.ShowDados(org, listCount);
-					Count dst = Search.maxNeighbor(i, org, listCount);
-					if (org.getTotal()>0) {
-						setas.append(PreProcess.arrow(org, dst));
-					}
-					listPonto.add(Util.setPonto(c, org, dst));
-					c++;
-				}
-				
-				// printList("Lista escalar do mapa "i, listPonto);
-				
-				conteudo.append(map.toString());
-				conteudo.append(quadrados.toString());
-				conteudo.append(taxis.toString());
-				
-				Point[][] v = matriz(listPonto);
-				print("Matriz escalar do mapa ", i, v);
-				
-				double[][] u = mdfU(i, listPonto.size(), v);
-				int t = config.getVizinhos().intValue()*2+1;
-				print("Matriz u de ", i, u, t);
-				
-				double[][] s = mdfS(i, listPonto.size(), v);
-				print("Matriz s de ", i, s, t);
-				System.out.println("\n");
-			}	
-
-			conteudo.append("<script>\n");
-			conteudo.append(setas.toString());
-			conteudo.append("</script>\n");
-			
-			String cabecalho = Util.readFile("cabecalho.txt", Charset.defaultCharset());
-			String rodape = Util.readFile("rodape.txt", Charset.defaultCharset());
-			
-			Util.build("dd", 0, cabecalho, conteudo.toString(), rodape);
-			database.close();			
-		} catch ( Exception e ) {
-			System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-			System.exit(0);
-		}
-		System.out.println("Operation done successfully");
-    }
-
+	// TODO printList
 	private static void printList(String title, int i, double[] k) {
 		System.out.print(title);
 		System.out.println(i);
@@ -366,6 +383,7 @@ public class App
 		}
 	}
 
+	// TODO mdfS
 	private static double[][] mdfS(Integer map, Integer size, Point[][] v0) {
 		int o = config.getVizinhos()*2+1;
 		Point[][] v = new Point[o][o];
@@ -459,6 +477,7 @@ public class App
 		return matriz(u);		
 	}
 
+	// TODO mdfU
 	private static double[][] mdfU(Integer map, Integer size, Point[][] v) {
 		int side = config.getVizinhos().intValue()*2+1;
 		BigDecimal h = new BigDecimal(config.getTamanhoLateral()).divide(config.FRACAO);
@@ -539,6 +558,7 @@ public class App
 		return matriz(u);		
 	}
 
+	// TODO print
 	private static void print(String title, int n, Point[][] v) {
 		System.out.print(title);
 		System.out.println(n);
@@ -577,6 +597,7 @@ public class App
 		
 	}
 	
+	// TODO round
 	public static double round(double value, int places) {
 	    if (places < 0) throw new IllegalArgumentException();
 
@@ -585,6 +606,7 @@ public class App
 	    return bd.round(new MathContext(places, RoundingMode.HALF_UP)).doubleValue();
 	}
 
+	// TODO matriz
 	private static Point[][] matriz(List<Point> listPonto) {
 		int i = config.getVizinhos()*2+1;
 		int j = i;
