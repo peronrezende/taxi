@@ -318,23 +318,23 @@ function loadCircle() {
 		.openPopup();
 	circleUMin.matriz.push(circle);
 	circleUMin.group.addLayer(circle);
-	var circle = L.circle([-22.890, -43.240], {
+	var circle = L.circle([-22.910, -43.250], {
 		color: 'orange',
 		fillColor: 'orange',
 		fillOpacity: 0.5,
 		radius: 100
 	}).addTo(map)
-		.bindPopup('SMax: 0.53125')
+		.bindPopup('SMax: -0.3125')
 		.openPopup();
 	circleSMax.matriz.push(circle);
 	circleSMax.group.addLayer(circle);
-	var circle = L.circle([-22.900, -43.250], {
+	var circle = L.circle([-22.890, -43.240], {
 		color: 'yellow',
 		fillColor: 'yellow',
 		fillOpacity: 0.5,
 		radius: 100
 	}).addTo(map)
-		.bindPopup('SMin: -0.6875')
+		.bindPopup('SMin: 0.53125')
 		.openPopup();
 	circleSMin.matriz.push(circle);
 	circleSMin.group.addLayer(circle);
