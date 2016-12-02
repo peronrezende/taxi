@@ -1,5 +1,6 @@
 package br.uff.ic.taxi;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,14 +22,22 @@ public class Search {
 	
 	public static Count maxNeighbor(Integer mapa, Count count, List<Count> listCount) {
 		List<Integer> listCel = listNeighbor(count.getCelula());
-		Count countMax = null;
+		Count countMax = count;
 		Integer total = 0;
+		BigDecimal totalDecimal = count.getTotalDecimal();
 		for (Count c : listCount) {			
 			if (c.getMapa().equals(mapa)) {
 				if (c.getCelula().equals(count.getCelula()) || listCel.contains(c.getCelula())) {
-					if (c.getTotal()>total) {
-						countMax = c;
-						total = c.getTotal();
+					if (c.getTotal() != null) {
+						if (c.getTotal()>total) {
+							countMax = c;
+							total = c.getTotal();
+						}
+					} else {
+						if (c.getTotalDecimal().compareTo(totalDecimal) == 1) {
+							countMax = c;
+							totalDecimal = c.getTotalDecimal();
+						}						
 					}
 				}
 			}
@@ -36,6 +45,31 @@ public class Search {
 		return countMax;
 	}
 
+	public static Count minNeighbor(Integer mapa, Count count, List<Count> listCount) {
+		List<Integer> listCel = listNeighbor(count.getCelula());
+		Count countMin = count;
+		Integer total = 0;
+		BigDecimal totalDecimal = count.getTotalDecimal();
+		for (Count c : listCount) {			
+			if (c.getMapa().equals(mapa)) {
+				if (c.getCelula().equals(count.getCelula()) || listCel.contains(c.getCelula())) {
+					if (c.getTotal() != null) {
+						if (c.getTotal()<total) {
+							countMin = c;
+							total = c.getTotal();
+						}
+					} else {
+						if (c.getTotalDecimal().compareTo(totalDecimal) != 1) {
+							countMin = c;
+							totalDecimal = c.getTotalDecimal();
+						}						
+					}
+				}
+			}
+		}
+		return countMin;
+	}
+	
 	public static List<Integer> listNeighbor(Integer cel) {
 		Config config = new Config();
 		

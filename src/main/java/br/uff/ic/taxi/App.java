@@ -8,8 +8,6 @@ import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
@@ -228,53 +226,55 @@ public class App
 	private static String setUS(double[][] u, double[][] s, Point[][] v) {
 		int o = config.getVizinhos()*2+1;		
 		List<Point> listPoint = new ArrayList<Point>();
+		List<Count> listCountU = new ArrayList<Count>();
+		List<Count> listCountS = new ArrayList<Count>();
+		Integer celula = 1;
+		BigDecimal tL = new BigDecimal(config.getTamanhoLateral());
+		BigDecimal lado = tL.divide(config.FRACAO);
 		for (int i=0; i<o; i++) {
 			for (int j=0; j<o; j++) {
 				v[i][j].setU(u[i][j]);
 				v[i][j].setS(s[i][j]);
 				listPoint.add(v[i][j]);
+				listCountU.add(new Count(0, celula, u[i][j], v[i][j].getLatitude(), v[i][j].getLongitude(), lado));
+				listCountS.add(new Count(0, celula, s[i][j], v[i][j].getLatitude(), v[i][j].getLongitude(), lado));
+				celula++;
 			}	 
 		}
 		
-		Collections.sort(listPoint, new Comparator<Point>() {
-	        public int compare(Point p2, Point p1)
-	        {
-	            return  p1.getU().compareTo(p2.getU());
-	        }
-	    });
-		
 		StringBuilder code = new StringBuilder();
 		code.append("function loadCircle() {\n");
-		
+
 		System.out.println("U");
-		for (int i=0; i<listPoint.size(); i++) {
-			if (i<config.getMarcas()) {
-				code.append(JavaScript.drawCircle("UMax", "red", round(listPoint.get(i).getU().doubleValue(), 5),  listPoint.get(i).getLatitude(), listPoint.get(i).getLongitude()));
+		int i = 0;
+		for (Count countU : listCountU) {
+			Count maxCountU = Search.maxNeighbor(0, countU, listCountU);
+			if (maxCountU != null && maxCountU.getCelula().equals(countU.getCelula())) {
+				code.append(JavaScript.drawCircle("UMax", "red", round(listPoint.get(i).getU().doubleValue(), 5),  listPoint.get(i).getLatitude(), listPoint.get(i).getLongitude()));				
 			}
-			if (i>=(listPoint.size()-config.getMarcas())) {
-				code.append(JavaScript.drawCircle("UMin", "blue", round(listPoint.get(i).getU().doubleValue(), 5),  listPoint.get(i).getLatitude(), listPoint.get(i).getLongitude()));
+			Count minCountU = Search.minNeighbor(0, countU, listCountU);
+			if (minCountU != null && minCountU.getCelula().equals(countU.getCelula())) {
+				code.append(JavaScript.drawCircle("UMin", "blue", round(listPoint.get(i).getU().doubleValue(), 5),  listPoint.get(i).getLatitude(), listPoint.get(i).getLongitude()));				
 			}
 			System.out.println(round(listPoint.get(i).getU().doubleValue(), 5));
+			i++;
 		}
-		
-		Collections.sort(listPoint, new Comparator<Point>() {
-	        public int compare(Point p2, Point p1)
-	        {
-	            return  p1.getS().compareTo(p2.getS());
-	        }
-	    });
-		
+
 		System.out.println("S");
-		for (int i=0; i<listPoint.size(); i++) {
-			if (i<config.getMarcas()) {
-				code.append(JavaScript.drawCircle("SMax", "orange", round(listPoint.get(i).getS().doubleValue(), 5),  listPoint.get(i).getLatitude(), listPoint.get(i).getLongitude()));
+		i = 0;
+		for (Count countU : listCountU) {
+			Count maxCountU = Search.maxNeighbor(0, countU, listCountU);
+			if (maxCountU != null && maxCountU.getCelula().equals(countU.getCelula())) {
+				code.append(JavaScript.drawCircle("SMax", "orange", round(listPoint.get(i).getS().doubleValue(), 5),  listPoint.get(i).getLatitude(), listPoint.get(i).getLongitude()));				
 			}
-			if (i>=(listPoint.size()-config.getMarcas())) {
-				code.append(JavaScript.drawCircle("SMin", "yellow", round(listPoint.get(i).getS().doubleValue(), 5),  listPoint.get(i).getLatitude(), listPoint.get(i).getLongitude()));
+			Count minCountU = Search.minNeighbor(0, countU, listCountU);
+			if (minCountU != null && minCountU.getCelula().equals(countU.getCelula())) {
+				code.append(JavaScript.drawCircle("SMin", "yellow", round(listPoint.get(i).getS().doubleValue(), 5),  listPoint.get(i).getLatitude(), listPoint.get(i).getLongitude()));				
 			}
-			System.out.println(round(listPoint.get(i).getS().doubleValue(), 5));
+			System.out.println(round(listPoint.get(i).getU().doubleValue(), 5));
+			i++;
 		}
-		
+
 		code.append("}");
 				
 		return code.toString();

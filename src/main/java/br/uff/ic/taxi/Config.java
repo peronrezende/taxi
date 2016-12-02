@@ -27,7 +27,6 @@ public class Config {
 	private BigDecimal longitudeMin;
 	private BigDecimal longitudeMax;
 	private Long raio;
-	private Integer marcas = 1;
 	public BigDecimal FRACAO = new BigDecimal(10000000000000l);
 
 	public Config() {
@@ -154,14 +153,6 @@ public class Config {
 		this.height = height;
 	}
 
-	public Integer getMarcas() {
-		return marcas;
-	}
-
-	public void setMarcas(Integer marcas) {
-		this.marcas = marcas;
-	}
-
 	private void load() {
 		Properties properties = new Properties();
 		String fileName = "config.properties";
@@ -196,7 +187,6 @@ public class Config {
 		setMapas(Integer.parseInt(properties.getProperty("mapas")));
 		setWidth(Integer.parseInt(properties.getProperty("width")));
 		setHeight(Integer.parseInt(properties.getProperty("height")));
-		setMarcas(Integer.parseInt(properties.getProperty("marcas")));
 	}
 	
 	public void create() {

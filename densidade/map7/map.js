@@ -271,6 +271,26 @@ function loadArrow() {
 }
 
 function loadCircle() {
+	var circle = L.circle([-22.910, -43.260], {
+		color: 'blue',
+		fillColor: 'blue',
+		fillOpacity: 0.5,
+		radius: 100
+	}).addTo(map)
+		.bindPopup('UMin: 0.73214')
+		.openPopup();
+	circleUMin.matriz.push(circle);
+	circleUMin.group.addLayer(circle);
+	var circle = L.circle([-22.890, -43.260], {
+		color: 'blue',
+		fillColor: 'blue',
+		fillOpacity: 0.5,
+		radius: 100
+	}).addTo(map)
+		.bindPopup('UMin: 0.01786')
+		.openPopup();
+	circleUMin.matriz.push(circle);
+	circleUMin.group.addLayer(circle);
 	var circle = L.circle([-22.900, -43.250], {
 		color: 'red',
 		fillColor: 'red',
@@ -281,6 +301,16 @@ function loadCircle() {
 		.openPopup();
 	circleUMax.matriz.push(circle);
 	circleUMax.group.addLayer(circle);
+	var circle = L.circle([-22.910, -43.240], {
+		color: 'blue',
+		fillColor: 'blue',
+		fillOpacity: 0.5,
+		radius: 100
+	}).addTo(map)
+		.bindPopup('UMin: 0.73214')
+		.openPopup();
+	circleUMin.matriz.push(circle);
+	circleUMin.group.addLayer(circle);
 	var circle = L.circle([-22.890, -43.240], {
 		color: 'blue',
 		fillColor: 'blue',
@@ -291,16 +321,16 @@ function loadCircle() {
 		.openPopup();
 	circleUMin.matriz.push(circle);
 	circleUMin.group.addLayer(circle);
-	var circle = L.circle([-22.890, -43.240], {
-		color: 'orange',
-		fillColor: 'orange',
+	var circle = L.circle([-22.910, -43.260], {
+		color: 'yellow',
+		fillColor: 'yellow',
 		fillOpacity: 0.5,
 		radius: 100
 	}).addTo(map)
-		.bindPopup('SMax: 0.13839')
+		.bindPopup('SMin: -0.07589')
 		.openPopup();
-	circleSMax.matriz.push(circle);
-	circleSMax.group.addLayer(circle);
+	circleSMin.matriz.push(circle);
+	circleSMin.group.addLayer(circle);
 	var circle = L.circle([-22.890, -43.260], {
 		color: 'yellow',
 		fillColor: 'yellow',
@@ -308,6 +338,36 @@ function loadCircle() {
 		radius: 100
 	}).addTo(map)
 		.bindPopup('SMin: -0.37946')
+		.openPopup();
+	circleSMin.matriz.push(circle);
+	circleSMin.group.addLayer(circle);
+	var circle = L.circle([-22.900, -43.250], {
+		color: 'orange',
+		fillColor: 'orange',
+		fillOpacity: 0.5,
+		radius: 100
+	}).addTo(map)
+		.bindPopup('SMax: -0.1875')
+		.openPopup();
+	circleSMax.matriz.push(circle);
+	circleSMax.group.addLayer(circle);
+	var circle = L.circle([-22.910, -43.240], {
+		color: 'yellow',
+		fillColor: 'yellow',
+		fillOpacity: 0.5,
+		radius: 100
+	}).addTo(map)
+		.bindPopup('SMin: -0.30804')
+		.openPopup();
+	circleSMin.matriz.push(circle);
+	circleSMin.group.addLayer(circle);
+	var circle = L.circle([-22.890, -43.240], {
+		color: 'yellow',
+		fillColor: 'yellow',
+		fillOpacity: 0.5,
+		radius: 100
+	}).addTo(map)
+		.bindPopup('SMin: 0.13839')
 		.openPopup();
 	circleSMin.matriz.push(circle);
 	circleSMin.group.addLayer(circle);

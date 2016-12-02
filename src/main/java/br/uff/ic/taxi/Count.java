@@ -5,7 +5,8 @@ import java.math.BigDecimal;
 public class Count {
 	private Integer mapa;
 	private Integer celula;
-	private Integer total;
+	private Integer total = null;
+	private BigDecimal totalDecimal;
 	private BigDecimal latitudeCentral;
 	private BigDecimal longitudeCentral;
 	
@@ -17,6 +18,14 @@ public class Count {
 		this.longitudeCentral = longitude.add(lado.divide(new BigDecimal(2)));
 	}
 	
+	public Count(Integer mapa, Integer celula, Double totalDecimal, BigDecimal latitude, BigDecimal longitude, BigDecimal lado) {
+		this.mapa=mapa;
+		this.celula=celula;
+		this.totalDecimal=new BigDecimal(totalDecimal);
+		this.latitudeCentral = latitude.add(lado.divide(new BigDecimal(2)));
+		this.longitudeCentral = longitude.add(lado.divide(new BigDecimal(2)));
+	}
+
 	public Integer getMapa() {
 		return mapa;
 	}
@@ -46,5 +55,13 @@ public class Count {
 	}
 	public void setLongitudeCentral(BigDecimal longitudeCentral) {
 		this.longitudeCentral = longitudeCentral;
+	}
+
+	public BigDecimal getTotalDecimal() {
+		return totalDecimal;
+	}
+
+	public void setTotalDecimal(BigDecimal totalDecimal) {
+		this.totalDecimal = totalDecimal;
 	}
 }

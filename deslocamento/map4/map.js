@@ -458,16 +458,6 @@ function loadArrow() {
 }
 
 function loadCircle() {
-	var circle = L.circle([-22.910, -43.250], {
-		color: 'red',
-		fillColor: 'red',
-		fillOpacity: 0.5,
-		radius: 100
-	}).addTo(map)
-		.bindPopup('UMax: 0.80357')
-		.openPopup();
-	circleUMax.matriz.push(circle);
-	circleUMax.group.addLayer(circle);
 	var circle = L.circle([-22.890, -43.260], {
 		color: 'blue',
 		fillColor: 'blue',
@@ -478,23 +468,53 @@ function loadCircle() {
 		.openPopup();
 	circleUMin.matriz.push(circle);
 	circleUMin.group.addLayer(circle);
-	var circle = L.circle([-22.900, -43.240], {
-		color: 'orange',
-		fillColor: 'orange',
+	var circle = L.circle([-22.910, -43.250], {
+		color: 'red',
+		fillColor: 'red',
 		fillOpacity: 0.5,
 		radius: 100
 	}).addTo(map)
-		.bindPopup('SMax: 0.29464')
+		.bindPopup('UMax: 0.80357')
 		.openPopup();
-	circleSMax.matriz.push(circle);
-	circleSMax.group.addLayer(circle);
-	var circle = L.circle([-22.900, -43.260], {
+	circleUMax.matriz.push(circle);
+	circleUMax.group.addLayer(circle);
+	var circle = L.circle([-22.890, -43.240], {
+		color: 'blue',
+		fillColor: 'blue',
+		fillOpacity: 0.5,
+		radius: 100
+	}).addTo(map)
+		.bindPopup('UMin: -0.21429')
+		.openPopup();
+	circleUMin.matriz.push(circle);
+	circleUMin.group.addLayer(circle);
+	var circle = L.circle([-22.890, -43.260], {
 		color: 'yellow',
 		fillColor: 'yellow',
 		fillOpacity: 0.5,
 		radius: 100
 	}).addTo(map)
-		.bindPopup('SMin: -0.41964')
+		.bindPopup('SMin: -0.16964')
+		.openPopup();
+	circleSMin.matriz.push(circle);
+	circleSMin.group.addLayer(circle);
+	var circle = L.circle([-22.910, -43.250], {
+		color: 'orange',
+		fillColor: 'orange',
+		fillOpacity: 0.5,
+		radius: 100
+	}).addTo(map)
+		.bindPopup('SMax: -0.11607')
+		.openPopup();
+	circleSMax.matriz.push(circle);
+	circleSMax.group.addLayer(circle);
+	var circle = L.circle([-22.890, -43.240], {
+		color: 'yellow',
+		fillColor: 'yellow',
+		fillOpacity: 0.5,
+		radius: 100
+	}).addTo(map)
+		.bindPopup('SMin: 0.25893')
 		.openPopup();
 	circleSMin.matriz.push(circle);
 	circleSMin.group.addLayer(circle);

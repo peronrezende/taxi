@@ -521,25 +521,45 @@ function loadCircle() {
 		.openPopup();
 	circleUMin.matriz.push(circle);
 	circleUMin.group.addLayer(circle);
-	var circle = L.circle([-22.890, -43.250], {
+	var circle = L.circle([-22.910, -43.240], {
+		color: 'red',
+		fillColor: 'red',
+		fillOpacity: 0.5,
+		radius: 100
+	}).addTo(map)
+		.bindPopup('UMax: 0.42857')
+		.openPopup();
+	circleUMax.matriz.push(circle);
+	circleUMax.group.addLayer(circle);
+	var circle = L.circle([-22.910, -43.260], {
 		color: 'orange',
 		fillColor: 'orange',
 		fillOpacity: 0.5,
 		radius: 100
 	}).addTo(map)
-		.bindPopup('SMax: 0.40179')
+		.bindPopup('SMax: 0.00893')
 		.openPopup();
 	circleSMax.matriz.push(circle);
 	circleSMax.group.addLayer(circle);
-	var circle = L.circle([-22.910, -43.240], {
+	var circle = L.circle([-22.890, -43.250], {
 		color: 'yellow',
 		fillColor: 'yellow',
 		fillOpacity: 0.5,
 		radius: 100
 	}).addTo(map)
-		.bindPopup('SMin: -0.24107')
+		.bindPopup('SMin: 0.40179')
 		.openPopup();
 	circleSMin.matriz.push(circle);
 	circleSMin.group.addLayer(circle);
+	var circle = L.circle([-22.910, -43.240], {
+		color: 'orange',
+		fillColor: 'orange',
+		fillOpacity: 0.5,
+		radius: 100
+	}).addTo(map)
+		.bindPopup('SMax: -0.24107')
+		.openPopup();
+	circleSMax.matriz.push(circle);
+	circleSMax.group.addLayer(circle);
 }
 
